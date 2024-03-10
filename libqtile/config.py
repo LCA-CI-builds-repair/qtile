@@ -895,6 +895,7 @@ class Match:
                     wm_instance_class, "wm_instance_class"
                 )
             self._rules["wm_instance_class"] = wm_instance_class
+
         if wid is not None:
             self._rules["wid"] = wid
         if net_wm_pid is not None:
