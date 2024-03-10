@@ -402,12 +402,46 @@ class ScreenRect:
             self.__class__(self.x, self.y + rowheight, self.width, self.height - rowheight),
         )
 
-
 class Screen(CommandObject):
     """
     A physical screen, and its associated paraphernalia.
 
     Define a screen with a given set of :class:`Bar`\s of a specific geometry. Also,
+
+    :param bars: A list of :class:`Bar`\s associated with this screen.
+    :param x: The x-coordinate of the top-left corner of the screen on the root window.
+    :param y: The y-coordinate of the top-left corner of the screen on the root window.
+    :param width: The width of the screen in pixels.
+    :param height: The height of the screen in pixels.
+    :param margin_t: The margin at the top of the screen in pixels.
+    :param margin_b: The margin at the bottom of the screen in pixels.
+    :param margin_l: The margin at the left of the screen in pixels.
+    :param margin_r: The margin at the right of the screen in pixels.
+    """
+    def __init__(
+        self,
+        bars: List[Bar],
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        margin_t: int = 0,
+        margin_b: int = 0,
+        margin_l: int = 0,
+        margin_r: int = 0,
+    ) -> None:
+        self.bars = bars
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.margin_t = margin_t
+        self.margin_b = margin_b
+        self.margin_l = margin_l
+        self.margin_r = margin_r
+
+    def __repr__(self) -> str:
+        return f"Screen(x={self.x}, y={self.y}, width={self.width}, height={self.height}, margin_t={self.margin_t}, margin_b={self.margin_b}, margin_l={self.margin_l}, margin_r={self.margin_r})"
     ``x``, ``y``, ``width``, and ``height`` aren't specified usually unless you are
     using 'fake screens'.
 
