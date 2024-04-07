@@ -42,8 +42,7 @@ from libqtile.resources.sleep import inhibitor
 if TYPE_CHECKING:
     from typing import Callable
 
-subscriptions = {}  # type: dict
-
+subscriptions: dict[str, Callable] = {}
 
 def clear():
     subscriptions.clear()
