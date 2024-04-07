@@ -402,7 +402,6 @@ class ScreenRect:
             self.__class__(self.x, self.y + rowheight, self.width, self.height - rowheight),
         )
 
-
 class Screen(CommandObject):
     """
     A physical screen, and its associated paraphernalia.
