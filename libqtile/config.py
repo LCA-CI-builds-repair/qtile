@@ -881,20 +881,24 @@ class Match:
     ) -> None:
         self._rules: dict[str, Any] = {}
 
-        if title is not None:
-            if isinstance(title, list):  # type: ignore
-                title = convert_deprecated_list(title, "title")
-            self._rules["title"] = title
-        if wm_class is not None:
-            if isinstance(wm_class, list):  # type: ignore
-                wm_class = convert_deprecated_list(wm_class, "wm_class")
-            self._rules["wm_class"] = wm_class
-        if wm_instance_class is not None:
-            if isinstance(wm_instance_class, list):  # type: ignore
-                wm_instance_class = convert_deprecated_list(
-                    wm_instance_class, "wm_instance_class"
-                )
-            self._rules["wm_instance_class"] = wm_instance_class
+```python
+if title is not None:
+    if isinstance(title, list):  # type: ignore
+        title = convert_deprecated_list(title, "title")
+    self._rules["title"] = title
+if wm_class is not None or wm_instance_class is not None:  # Combine and check conditions together
+    if isinstance(wm_class, list):  # type: ignore
+        wm_class = convert_deprecated_list(wm_class, "wm_class")
+    if wm_instance_class is not None and isinstance(wm_instance_class, list):  # type: ignore
+        wm_instance_class = convert_deprecated_list(wm_instance_class, "wm_instance_class")
+    self._rules.update(
+        {
+            "wm_class": wm_class,
+            "wm_instance_class": wm_instance_class,
+        }
+    )
+```
+
         if wid is not None:
             self._rules["wid"] = wid
         if net_wm_pid is not None:
