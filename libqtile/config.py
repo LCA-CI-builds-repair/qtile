@@ -895,6 +895,23 @@ class Match:
                     wm_instance_class, "wm_instance_class"
                 )
             self._rules["wm_instance_class"] = wm_instance_class
+            return self.rules
+
+        def __setitem__(self, key, value):
+            if key == "title" and value is not None:
+                if isinstance(value, list):
+                    value = convert_deprecated_list(value, "title")
+                self.rules["title"] = value
+            elif key == "wm_class" and value is not None:
+                if isinstance(value, list):
+                    value = convert_deprecated_list(value, "wm_class")
+                self.rules["wm_class"] = value
+            elif key == "wm_instance_class" and value is not None:
+                if isinstance(value, list):
+                    value = convert_deprecated_list(value, "wm_instance_class")
+                self.rules["wm_instance_class"] = value
+            else:
+                self.rules[key] = value
         if wid is not None:
             self._rules["wid"] = wid
         if net_wm_pid is not None:
