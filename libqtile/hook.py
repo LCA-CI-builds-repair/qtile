@@ -44,7 +44,41 @@ if TYPE_CHECKING:
 
 subscriptions = {}  # type: dict
 
+def _subscribe(hook: Callable):
+    ...
 
+def _unsubscribe(hook: Callable):
+    ...
+
+def _call_hooks():
+    ...
+
+class Subscribe(metaclass=ABCMeta):
+    @abstractmethod
+    def _subscribe(self, hook: Callable):
+        ...
+
+    @abstractmethod
+    def _unsubscribe(self, hook: Callable):
+        ...
+
+    @abstractmethod
+    def _call_hooks(self):
+        ...
+
+class Hooks(Subscribe):
+    def __init__(self):
+        self._hooks = []  # type: List[Callable]
+
+    def _subscribe(self, hook: Callable):
+        self._hooks.append(hook)
+
+    def _unsubscribe(self, hook: Callable):
+        self._hooks.remove(hook)
+
+    def _call_hooks(self):
+        for hook in self._hooks:
+            hook()
 def clear():
     subscriptions.clear()
 
