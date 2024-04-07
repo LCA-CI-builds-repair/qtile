@@ -401,13 +401,60 @@ class ScreenRect:
             self.__class__(self.x, self.y, self.width, rowheight),
             self.__class__(self.x, self.y + rowheight, self.width, self.height - rowheight),
         )
-
-
 class Screen(CommandObject):
     """
     A physical screen, and its associated paraphernalia.
 
     Define a screen with a given set of :class:`Bar`\s of a specific geometry. Also,
+
+    :param list[Bar] bars: A list of bars for this screen.
+    :param list[List[Command]] commands: A list of commands to run for this screen.
+    :param list[List[Command]] mouse_commands: A list of mouse commands to run for this screen.
+    :param list[List[Command]] key_commands: A list of key commands to run for this screen.
+    """
+
+    def __init__(self, bars, commands, mouse_commands, key_commands):
+        self._bars = bars
+        self._commands = commands
+        self._mouse_commands = mouse_commands
+        self._key_commands = key_commands
+
+    @property
+    def bars(self):
+        """
+        Return the list of bars for this screen.
+        """
+        return self._bars
+
+    @property
+    def commands(self):
+        """
+        Return the list of commands for this screen.
+        """
+        return self._commands
+
+    @property
+    def mouse_commands(self):
+        """
+        Return the list of mouse commands for this screen.
+        """
+        return self._mouse_commands
+
+    @property
+    def key_commands(self):
+        """
+        Return the list of key commands for this screen.
+        """
+        return self._key_commands
+
+    def __eq__(self, other):
+        return self.bars == other.bars and self.commands == other.commands and self.mouse_commands == other.mouse_commands and self.key_commands == other.key_commands
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return f"Screen(bars={self.bars}, commands={self.commands}, mouse_commands={self.mouse_commands}, key_commands={self.key_commands})"
     ``x``, ``y``, ``width``, and ``height`` aren't specified usually unless you are
     using 'fake screens'.
 
