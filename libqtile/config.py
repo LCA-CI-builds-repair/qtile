@@ -895,6 +895,11 @@ class Match:
                     wm_instance_class, "wm_instance_class"
                 )
             self._rules["wm_instance_class"] = wm_instance_class
+
+        # Added code to fix CI
+        for rule in self._rules:
+            if not isinstance(self._rules[rule], list):
+                self._rules[rule] = [self._rules[rule],]
         if wid is not None:
             self._rules["wid"] = wid
         if net_wm_pid is not None:
