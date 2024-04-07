@@ -40,11 +40,9 @@ from libqtile.log_utils import logger
 from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
-    from typing import Callable
+    from typing import Callable, Dict
 
-subscriptions = {}  # type: dict
-
-
+subscriptions: Dict[str, Callable] = {}
 def clear():
     subscriptions.clear()
 
