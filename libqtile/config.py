@@ -884,17 +884,20 @@ class Match:
         if title is not None:
             if isinstance(title, list):  # type: ignore
                 title = convert_deprecated_list(title, "title")
-            self._rules["title"] = title
+            else:
+                self._rules["title"] = title
         if wm_class is not None:
             if isinstance(wm_class, list):  # type: ignore
                 wm_class = convert_deprecated_list(wm_class, "wm_class")
-            self._rules["wm_class"] = wm_class
+            else:
+                self._rules["wm_class"] = wm_class
         if wm_instance_class is not None:
             if isinstance(wm_instance_class, list):  # type: ignore
                 wm_instance_class = convert_deprecated_list(
                     wm_instance_class, "wm_instance_class"
                 )
-            self._rules["wm_instance_class"] = wm_instance_class
+            else:
+                self._rules["wm_instance_class"] = wm_instance_class
         if wid is not None:
             self._rules["wid"] = wid
         if net_wm_pid is not None:
