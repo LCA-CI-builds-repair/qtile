@@ -3,7 +3,24 @@
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# to use, copy, modify, merge, publish, distribute, sufrom libqtile import hook
+import logging
+
+class Bar:
+    def __init__(self):
+        hook.subscribe.startup_complete(self.set_layer)
+
+        self._remove_crashed_widgets(crashed_widgets)
+        self.draw()
+        self._resize(self._length, self.widgets)
+        self._configured = True
+
+    def _configure_widget(self, widget: _Widget) -> bool:
+        assert self.qtile is not None
+
+        if widget.supported_backends and (self.qtile.core.name not in widget.supported_backends):
+            logger = logging.getLogger(__name__)
+            logger.warning("Widget backend not supported by the current core")d/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
