@@ -10,7 +10,9 @@
 # Copyright (c) 2012-2015 Tycho Andersen
 # Copyright (c) 2012 Craig Barnes
 # Copyright (c) 2013 Tao Sauvage
-# Copyright (c) 2014 Sean Vig
+# Copyr        4) Group is renamed
+
+        **Arguments**t (c) 2014 Sean Vig
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

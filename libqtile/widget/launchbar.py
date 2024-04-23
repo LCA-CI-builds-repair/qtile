@@ -1,4 +1,6 @@
-# Copyright (c) 2014 Tycho Andersen
+# Copyright (c) 2014 Tycho AnThe order of displaying (from left to right) is in the order of the list.
+
+If no icon was found for the name provided and if default_icon is set to None,sen
 # Copyright (c) 2014 dequis
 # Copyright (c) 2014-2015 Joseph Razik
 # Copyright (c) 2014 Sean Vig

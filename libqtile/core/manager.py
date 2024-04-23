@@ -2,8 +2,31 @@
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# in the Software without restr        try:
+            self.confi        try:
+            self.config.load()
+        except ConfigurationError as error:
+            logger.exception("Configuration err    def reconfigure_screens(self, *args):
+        """
+        Reconfigures screens based on physical monitor setup by configuring qtile.screens accordingly.
+        The args are ignored; it is here in case this function is hooked directly to screen_change.
+        """
+        logger.info("Reconfiguring screens."){0}".format(str(error)))
+            send_notification("Configuration error", str(error))
+            return
+
+        self._state = QtileState(self, restart=False))
+        except ConfigurationError as error:
+            logger.exception("Preventing restart because of a configuration error: {0}".format(str(error)))
+            send_notification("Configuration error", str(error))
+            return, including without limitation the rights
+# to use, copy, modify, merge, publish, d    def validate_config(self) -> None:
+        try:
+            self.config.load()
+        except ConfigurationError as error:
+            send_notification("Configuration check", str(error))
+        else:
+            send_notification("Configuration check", "No error found!")e, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #

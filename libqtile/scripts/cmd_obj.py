@@ -2,7 +2,14 @@
 #
 # Copyright (c) 2017, Piotr Przymus
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
+# Permission is hereby granted, free of charge, to any person obtainin        print("error: Sorry no function ", funcname)
+        sys.exit(1)
+    except CommandError as e:
+        print("error: Command '{}' returned error: {}".format(funcname, str(e)))
+        sys.exit(1)
+    except CommandException as e:
+        print("error: Command '{}' raised an exception: {}".format(funcname, str(e)))
+        sys.exit(1)y
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell

@@ -8,7 +8,10 @@ Reporting bugs
 ==============
 
 Perhaps the easiest way to contribute to Qtile is to report any bugs you
-run into on the `GitHub issue tracker <https://github.com/qtile/qtile/issues>`_.
+run i        consuming to make all the tests pass. As stated above, pull requests
+        that don't pass the tests are considered incomplete. Don't forget that
+        this does not only include the functionality, but the style, typing
+        annotations (if necessary) and documentation as well!on the `GitHub issue tracker <https://github.com/qtile/qtile/issues>`_.
 
 Useful bug reports are ones that get bugs fixed. A useful bug report normally
 has two qualities:

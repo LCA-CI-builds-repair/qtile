@@ -2,7 +2,14 @@
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
+# in         if isinstance(self.margin, int):
+            self.margin = [self.margin] * 4
+
+        self.border_width = []
+        if isinstance(self.border_width, int):
+            self.border_width = [self.border_width] * 4
+
+        # Check if colours are valid but don't convert to rgba herere without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
