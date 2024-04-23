@@ -4,7 +4,15 @@ Contributing
 
 .. _reporting:
 
-Reporting bugs
+Repor    * **Unit tests** that       own. In other words: *do* introduce your featur``test`` environments        consuming to make all the tests pass. As stated above, pull requests
+        that don't pass the tests are considered incomplete. Don't forget that
+        this does not only include the functionality, but also the style, typing
+        annotations (if necessary), and documentation as well!ch should be used for running qtile's tests locally. By default, tests will only run on x11 backend (but see below for information on how to set the backend). one commit and maybe
+      add the tests and documentation in a separate commit. *Don't* push commits
+      that partially implement a feature and are basically broken. locally and in our CI environment (More below).
+      * Please add unit tests to ensure that your code works and stays working!
+    * **Documentation** updates on an as needed basis.
+    * A ``qtile migrate`` **migration** is required for config-breaking changes. bugs
 ==============
 
 Perhaps the easiest way to contribute to Qtile is to report any bugs you

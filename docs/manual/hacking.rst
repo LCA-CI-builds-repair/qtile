@@ -9,7 +9,12 @@ Requirements
 
 Here are Qtile's additional dependencies that may be required for tests:
 
-================= =================== ==================================================
+================= ======as the test runner will launch its own Xephyr instances.
+
+Second X Session
+================
+
+Some users prefer to test Qtile in a second, completely separate X session:======= ==================================================
 Dependency        Ubuntu Package      Needed for
 ================= =================== ==================================================
 pytest_           python3-pytest      Running tests

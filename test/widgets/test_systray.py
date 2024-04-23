@@ -1,7 +1,12 @@
 # Copyright (c) 2022 elParaguayo
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# of this software a    assert (int(x), int(y)) == (3, 10)
+
+    # Icons should be in alphabetical order
+    _, order = manager_nospawn.c.widget["systray"].eval("[i.name for i in self.tray_icons]")
+
+    assert order == "['volumeicon', 'vlc']"ociated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is

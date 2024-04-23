@@ -1,4 +1,11 @@
-# Copyright (c) 2023, elParaguayo. All rights reserved.
+# Copyright (c) 2023, elParagmigration_ids = []
+for m in MIGRATIONS:
+    tests = []
+    for i, test in enumerate(m.TESTS):
+        tests.append((m.ID, test))
+        migration_ids.append(f"{m.ID}-{i}")
+
+    if not tests:l rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

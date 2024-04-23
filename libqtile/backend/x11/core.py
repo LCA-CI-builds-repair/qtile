@@ -6,9 +6,13 @@
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
+# furnished to do so, subject to the following conditi            if code == 0:
+                logger.warning("Can't grab %s (unknown keysym: %02x)", key, keysym)
+                continue
+            for amask in self._auto_modmasks():
+                self.conn.conn.core.GrabKey(
+                    True,
+                    self._root.wid,# The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR

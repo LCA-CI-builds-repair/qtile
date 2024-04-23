@@ -6,7 +6,11 @@ import pytest
 import xcffib
 import xcffib.testing
 import xcffib.xproto
-import xcffib.xtest
+im            raise AssertionError(
+                "Unable to start Xephyr, quit with return code " f"{self.proc.returncode}"
+            )
+
+    def stop_xephyr(self):xcffib.xtest
 
 from libqtile.backend.x11.core import Core
 from libqtile.backend.x11.xcbq import Connection
