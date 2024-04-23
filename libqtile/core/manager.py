@@ -10,7 +10,23 @@
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# THE SOFTWARE IS PROVIDED "AS    def reserve_space(self, reserved_space: Tuple[int, int, int, int], screen: Screen) -> None:
+        """
+        Reserve space at the edge(s) of a screen.
+        """
+        # mypy can't work out that the new tuple is also length 4 (see mypy #7509)
+        reserved_space = tuple(-i for i in reserved_space)  # type: ignore
+        self.reserve_space(reserved_space, screen)
+
+    def manage(self, win: base.WindowType) -> None:
+        if isinstance(win, base.Internal):
+            self.windows_map[win.wid] = win
+            return
+
+        if win.wid in self.windows_map:
+            return
+
+        hook.fire("client_new", win)TY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
