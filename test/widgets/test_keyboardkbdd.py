@@ -1,6 +1,36 @@
-# Copyright (c) 2021 elParaguayo
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
+# Copyright (c) 2021 # The test_widget_init_config will cover the scenario where `kbdd` is not
+# running and will also run the asyncio _config_async method.
+
+# This test file covers the remaining widget code
+
+import sys
+import asyncio
+import pytest
+
+from test.widgets.conftest import FakeBar
+from some_module import kbdd
+
+async def mock_signal_receiver(*args, **kwargs):
+    return True
+
+class Mockconstants(ModuleType):
+    class MessageType:
+        SIGNAL = 1
+
+class MockSpawn:
+    call_count = 0
+
+    @classmethod
+    async def call_process(cls, *args, **kwargs):
+        if cls.call_count == 0:
+            cls.call_count += 1
+            return ""
+        return "kbdd"
+
+class MockMessage:
+    def __init__(self, is_signal=True, body=0):
+        self.message_type = 1 if is_signal else 0
+        self.body = [body]anted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell

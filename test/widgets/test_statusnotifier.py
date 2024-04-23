@@ -1,7 +1,38 @@
 # Copyright (c) 2021 elParaguayo
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# of this software and associated documentationscreen = sni_config.screens[0]
+screen.left = screen.top
+screen.top = None
+
+manager_nospawn.start(sni_config)
+widget = manager_nospawn.c.widget["statusnotifier"]
+windows = manager_nospawn.c.windows
+
+assert widget.info()["height"] == 0
+
+try:
+    win = manager_nospawn.test_window("TestSNILeftClick", export_sni=True)
+    wait_for_icon(widget, hidden=False, prop="height")
+
+    # Check we have window and that it's not fullscreen
+    assert len(windows()) == 1
+    check_fullscreen(windows, False)
+
+    # Left click will toggle fullscreen
+    manager_nospawn.c.bar["left"].fake_button_press(0, "left", 0, 10, 1)
+    check_fullscreen(windows, True)
+
+    # Left click again will restore window
+    manager_nospawn.c.bar["left"].fake_button_press(0, "left", 0, 10, 1)
+    check_fullscreen(windows, False)
+
+    manager_nospawn.kill_window(win)
+    assert not windows()
+
+except Exception as e:
+    # Handle the exception here
+    print(f"An exception occurred: {e}")al
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is

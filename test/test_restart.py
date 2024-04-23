@@ -1,7 +1,37 @@
 # Copyright (c) 2021 elParaguayo
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# Permission is hereby granted, free of charge, to any pe# Use a counter in manager and increment when hook is fired
+def inc_restart_call():
+    manager.restart_calls.value += 1
+
+manager.restart_calls = Value("i", 0)
+hook.subscribe.restart(inc_restart_call)
+
+manager.start(TwoScreenConfig)
+
+# Check that hook hasn't been fired yet.
+assert manager.restart_calls.value == 0
+
+manager.c.group["c"].toscreen(0)
+manager.c.group["d"].toscreen(1)
+
+manager.test_window("one")
+manager.test_window("two")
+wins = {w["name"]: w["id"] for w in manager.c.windows()}
+manager.c.window[wins["one"]].togroup("c")
+manager.c.window[wins["two"]].togroup("d")
+
+# Define the code to be injected before restarting
+inject = """
+# code to be injected
+"""
+
+# Inject the code and start the restart
+manager.c.eval(inject)
+manager.c.restart()
+
+# Check if the hook fired after the restart
+assert manager.restart_calls.value == 1 this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
