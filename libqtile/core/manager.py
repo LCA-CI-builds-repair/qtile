@@ -2,7 +2,17 @@
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
+# in the Software without rest            self.config.load()
+               self.config.load()
+        except Exception as error:
+            logger.exception("Configuration error:")
+            send_notification("Configuration error", str(error))
+            return
+
+        self._state = QtileState(self, restart=False)cept Exception as error:
+            logger.exception("Preventing restart because of a configuration error:")
+            send_notification("Configuration error", str(error))
+            returnn, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
@@ -11,7 +21,13 @@
 # all copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# IMPLIED, INCLUD    def validate_config(self) -> None:
+        try:
+            self.config.load()
+        except Exception as error:
+            send_notification("Configuration check", str(error))
+        else:
+            send_notification("Configuration check", "No error found!")NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,

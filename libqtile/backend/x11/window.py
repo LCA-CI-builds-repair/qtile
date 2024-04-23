@@ -12,8 +12,25 @@ import xcffib.xproto
 from xcffib.wrappers import GContextID, PixmapID
 from xcffib.xproto import EventMask, SetMode
 
-from libqtile import bar, hook, utils
-from libqtile.backend import base
+from libqtile import bar, hook, u        if name in xcbq.PropertyMap:
+           unpack, either `str` or `int` must be specified.
+        """
+        if type is None:
+            if prop not in xcbq.PropertyMap:
+                raise ValueError("Must specify type for unknown property.")
+            else:
+                type, _ = xcbq.PropertyMap[prop]
+
+        try:if type is not None or format is not None:
+                raise ValueError("Over-riding default type or format for property.")
+            type, format = xcbq.PropertyMap[name]
+        else:
+            if type is None or format is None:
+                raise ValueErro            - windows having state _NET_WM_STATE_BELOW
+            - windows not belonging in any other layer
+            - windows of type _NET_WM_TYPE_DOCK (unless they have state
+              _NET_WM_TYPE_BELOW) and windows having state _NET_WM_STATE_ABOVE
+            - focused windows having state _NET_WM_STATE_FULLSCREENst specify type and format for unknown property.")om libqtile.backend import base
 from libqtile.backend.base import FloatStates
 from libqtile.backend.x11 import xcbq
 from libqtile.backend.x11.drawer import Drawer
