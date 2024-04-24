@@ -3,7 +3,23 @@
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# to use, copy, modify, merge, publish, dis    _, result = manager_nospawn.c.eval("    assert notifier_has_callbacks()
+
+    _ = manager_nospawn.c.widget["notify"].eval("self.finalize()")
+
+    assert not notifier_has_callbacks()
+
+
+@pytest.mark.parametrize(
+    "urgency,timeout",
+    [(0, DEFAULT_TIMEOUT_LOW), (1, DEFAULT_TIMEOUT_NORMAL), (2, DEFAULT_TIMEOUT_URGENT)],
+)
+@pytest.mark.skipif(shutil.which("notify-send") is None, reason="notify-send not installed.")
+@pytest.mark.usefixtures("dbus")
+def test_notifications_default_timeouts(manager_nospawn, minimal_conf_noscreen, urgency, timeout):
+    notify.Notify.timeout_add = log_timeout
+    widget = notify.Notify(
+        default_timeout_low=DEFAULT_TIMEOUT_LOW,er.action_invoked()")ribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #

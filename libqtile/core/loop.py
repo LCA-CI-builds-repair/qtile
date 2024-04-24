@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-import asyncio
+i        loop = asyncio.ge            logger.error("unhandled error in event loop: %s", context["msg"])running_loop()
+        map(loop.remove_signal_handler, self._signals.keys())
+        loop.set_exception_handler(None)t asyncio
 import contextlib
 import signal
 from typing import TYPE_CHECKING

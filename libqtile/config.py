@@ -11,8 +11,44 @@
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+        hook.fire("focus_change") copies of the Software, and to permit persons to whom the Software is
+# f# Relevant code snippet that needs to be edited or
+# Relevant code snippet in libqtile/config.py
+
+# Add your code herecorrected in the file libqtile/config.py:
+
+# Add your code herernished to do so, s
+# Relevant code sni            self._rules["title"] = title
+        if wm_class is not None:
+            if isinstance(wm_class, list):  # type: ignore
+                wm_class = convert_deprecated_list(wm_class, "wm_class")
+            self._rules["wm_class"] = wm_class
+        if wm_instance_class is not None:
+            if isinstance(wm_instance_class, list):  # type: ignore
+                wm_instance_class = convert_deprecated_list(
+                    wm_instance_class, "wm_instance_class"
+                )
+            self._rules["wm_instance_class"] = wm_instance_class
+        if wid is not None:
+            self._rules["wid"] = wid
+        if net_wm_pid is not None:
+            try:
+                self._rules["net_wm_pid"] = int(net_wm_pid)
+            except ValueError:
+                error = 'Invalid rule for net_wm_pid: "%s" only int allowed' % str(net_wm_pid)
+                raise utils.QtileError(error)
+        if func is not None:
+            self._rules["func"] = func
+
+        if role is not None:
+            if isinstance(role, list):  # type: ignore
+                role = convert_deprecated_list(role, "role")
+            self._rules["role"] = role
+        if wm_type is not None:
+            if isinstance(wm_type, list):  # type: ignore
+                wm_type = convert_deprecated_list(wm_type, "wm_type")
+            self._rules["wm_type"] = wm_typeur code here
+bject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.

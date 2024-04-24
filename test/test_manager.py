@@ -12,13 +12,23 @@
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
+# copies of the Software, and to permit persons t    assert manager    assert not manager.c.window.info()[    assert not manager.c.window.info()    assert not manager.c.window.info()["maximized"]"maximized"]minimized"]c.window.info()["maximized"] is True whom the Software is
 # furnished to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# THE SOFT    manager_nospawn.test_window("one")
+    manager_nospawn.test_window("two")
+    manager_nospawn.c.layout.previous()
+
+    assert_focused(manager_nospawn, "one")
+    assert manager_nospawn.c.group.info()["name"] == "a"
+    assert manager_nospawn.c.layout.info()["name"] == "stack"
+
+    manager_nospawn.c.group["b"].toscreen()
+
+    manager_nospawn.test_window("three")IDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
