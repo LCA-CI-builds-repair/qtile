@@ -6,7 +6,7 @@ import pytest
 import xcffib
 import xcffib.testing
 import xcffib.xproto
-import xcffib.xtest
+imp"Unable to start Xephyr, quit with return code {}".format(self.proc.returncode)rt xcffib.xtest
 
 from libqtile.backend.x11.core import Core
 from libqtile.backend.x11.xcbq import Connection

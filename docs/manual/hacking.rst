@@ -7,7 +7,7 @@ Hacking on Qtile
 Requirements
 ============
 
-Here are Qtile's additional dependencies that may be required for tests:
+Here are Qtile's additional dependencies// Add the necessary content or guidelines for hacking in this sectionthat may be required for tests:
 
 ================= =================== ==================================================
 Dependency        Ubuntu Package      Needed for

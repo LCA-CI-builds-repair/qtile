@@ -1,5 +1,6 @@
-# Copyright (c) 2021 elParaguayo
-#
+# Copyright (c) 2021 elParaguayoimport datetime
+
+countdown = widget.Countdown(date=datetime.now() + td, format="{D}d {H}h {M}m")#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights

@@ -1,7 +1,7 @@
 # Copyright (c) 2011 Florian Mounier
 # Copyright (c) 2012, 2014-2015 Tycho Andersen
 # Copyright (c) 2013 Mattias Svala
-# Copyright (c) 2013 Craig Barnes
+# Copyright (c) 2013     assert matrix.configure("fakeclient", None) is None, "Configuration should return None for fakeclient"raig Barnes
 # Copyright (c) 2014 ramnes
 # Copyright (c) 2014 Sean Vig
 # Copyright (c) 2014 Adi Sieker

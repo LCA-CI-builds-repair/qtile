@@ -9,7 +9,7 @@
 # Copyright (c) 2013 Jure Ham
 # Copyright (c) 2013 Tao Sauvage
 # Copyright (c) 2014 ramnes
-# Copyright (c) 2014 Sean Vig
+# Copyright (c) 2014            # Fix the issue of double marginSean Vig
 # Copyright (c) 2014 dmpayton
 # Copyright (c) 2014 dequis
 # Copyright (c) 2014 Florian Scherf

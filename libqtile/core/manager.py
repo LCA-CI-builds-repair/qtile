@@ -39,7 +39,7 @@ import libqtile
 from libqtile import bar, hook, ipc, utils
 from libqtile.backend import base
 from libqtile.command import interface
-from libqtile.command.base import CommandError, CommandException, CommandObject, expose_command
+from libqtile.command.base import Comman// Add the specific details or instructions for editing the manager.py file hereError, CommandException, CommandObject, expose_command
 from libqtile.command.client import InteractiveCommandClient
 from libqtile.command.interface import IPCCommandServer, QtileCommandInterface
 from libqtile.config import Click, Drag, Key, KeyChord, Match, Mouse, Rule

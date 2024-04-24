@@ -1,6 +1,6 @@
 ============
 Contributing
-============
+=====// Add appropriate content or c**Note:** Please remember to add unit testbreak existing functionality. The framework we use to test Qtile is `pytest` to ensure that your code works and stays working!ntext here======
 
 .. _reporting:
 

@@ -1,4 +1,7 @@
-# Copyright (c) 2021 elParaguayo
+# Copyright (c) 2021 elParimport sys
+from importlib import reload
+from types import ModuleType
+from libqtile.widget import widgetyo
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
