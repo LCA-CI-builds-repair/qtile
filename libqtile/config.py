@@ -1,7 +1,112 @@
 # Copyright (c) 2012-2015 Tycho Andersen
 # Copyright (c) 2013 xarvh
 # Copyright (c) 2013 horsik
-# Copyright (c) 2013-2014 roger
+modifiers:
+    # A list of modifier specifications. Modifier specifications are one of:
+    # "shift", "lock", "control", "mod1", "mod2", "mod3",
+    # "mod4", "mod5".
+key:
+    # A key specification, e.g. "a", "Tab", "Return", "space".
+submappings:
+    # A list of :class:`Key` or :class:`KeyChord` declarations to bind in this chord.
+mode:
+    # Boolean. # Add missing method definitions and property declarations for better code completeness
+class Screen:
+    def __init__(self, width: int | None = None, height: int | None = None) -> None:
+        self.width = width if width is not None else 0
+        self.height = height if height is not None else 0
+        self.previouif isinstance(title, list):  # type: ignore
+    title = convert_deprecated_list(title, "title")
+self._rules["title"] = title
+
+if wm_class is not None:
+    if isinstance(wm_class, list):  # type: ignore
+        wm_class = convert_deprecated_list(wm_class, "wm_class")
+    self._rules["wm_class"] = wm_class
+
+if wm_instance_class is not None:
+    if isinstance(wm_instance_class, list):  # type: ignore
+        wm_instance_class = convert_deprecated_list(wm_instance_class, "wm_instance_class")
+    self._rules["wm_instance_class"] = wm_instance_class
+
+if wid is not None:
+    self._rules["wid"] = wid
+
+if net_wm_pid is not None:
+    try:
+        self._rules["net_wm_pid"] = int(net_wm_pid)
+    except ValueError:
+        error = 'Invalid rule for net_wm_pid: "%s" only int allowed' % str(net_wm_pid)
+        raise utils.QtileError(error)
+
+if func is not None:
+    self._rules["func"] = func
+
+if role is not None:
+    if isinstance(role, list):  # type: ignore
+        role = convert_deprecated_list(role, "role")
+    self._rules["role"] = rolee
+
+    def _configure(
+        self,
+        qtile: Qtile,
+        index: int,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        group: _Group,
+        reconfigure_gaps: bool = False,
+    ) -> None:
+        # Method implementation
+
+    def paint(self, path: str, mode: str | None = None) -> None:
+        # Method implementation
+
+    @property
+    def gaps(self) -> Iterable[BarType]:
+        # Property implementation
+
+    @property
+    def dx(self) -> int:
+        # Property implementation
+
+    @property
+    def dy(self) -> int:
+        # Property implementation
+
+    @property
+    def dwidth(self) -> int:
+        # Property implementation
+
+    @property
+    def dheight(self) -> int:
+        # Property implementation
+
+    def get_rect(self) -> ScreenRect:
+        # Method implementation
+
+    def set_group(
+        self, new_group: _Group | None, save_prev: bool = True, warp: bool = True
+    ) -> None:
+        # Method implementation
+
+    def _toggle_group(self, group: _Group | None = None, warp: bool = True) -> None:
+        # Method implementation
+
+    def _items(self, name: str) -> ItemT:
+        # Method implementation
+
+    def _select(self, name: str, sel: str | int | None) -> CommandObject | None:
+        # Method implementation
+    # A string to name the chord. The name will be displayed in the Chord
+    # widget.
+desc:
+    # A string to describe the chord. This attribute is not directly used by Qtile
+    # but users may want to access this when creating scripts to show configured
+    # keybindings.
+swallow:
+    # Configures when we swallow the key binding of the chord. (Optional)014 roger
 # Copyright (c) 2013 Tao Sauvage
 # Copyright (c) 2014 ramnes
 # Copyright (c) 2014 Sean Vig

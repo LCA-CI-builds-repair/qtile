@@ -1,6 +1,54 @@
 # Copyright (c) 2015, Roger Duran
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
+# Permission is hereby granted, free of charge, to anyimport os
+import linecache
+import curses
+
+snapshot = filter_snapshot(snapif not ENABLED:
+    raise Exception("Could not import tracemalloc")
+
+# Initialize variables based on opts
+lines = opts.lines
+seconds = opts.seconds
+force_start = opts.force_start
+
+# Determine the socket file
+if opts.socket is None:
+    socket = ipc.find_sockfile()
+else:
+    socket = opts.socket
+
+# Create an instance of InteractiveCommandClient with IPC interface
+c = client.InteractiveCommandClient(
+    interface.IPCCommandInterface(
+        ipc.Client(socket),
+    ),
+)s = snapshot.statistics(group_by)
+cnt = 1
+
+# Iterate over top statistics limited by a specified value
+for index, stat in enumerate(top_stats[:limit], 1):
+    frame = stat.traceback[0]
+    
+    # Replace the full file path with a shorter version for readability
+    filename = os.sep.join(frame.filename.split(os.sep)[-2:])
+    
+    code = ""
+    line = linecache.getline(frame.filename, frame.lineno).strip()
+    if line:
+        code = line
+    
+    # Calculate memory usage in KiB
+    mem = "{:.1f} KiB".format(stat.size / 1024.0)
+    
+    # Format the output display with index, filename, and memory usage
+    filename = "{}:{}".format(filename, frame.lineno)
+    scr.addstr(cnt + 1, 0, "{:<3} {:<40} {:<30}".format(index, filename, mem))
+    
+    # Display the code snippet with proper formatting and color
+    scr.addstr(cnt + 2, 4, code, curses.color_pair(1))
+    
+    cnt += 2 a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell

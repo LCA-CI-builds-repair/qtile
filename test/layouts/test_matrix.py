@@ -1,7 +1,31 @@
 # Copyright (c) 2011 Florian Mounier
 # Copyright (c) 2012, 2014-2015 Tycho Andersen
 # Copyright (c) 2013 Mattias Svala
-# Copyright (c) 2013 Craig Barnes
+#from libqtile.layout import layout, Matrix
+from libqtile.test.layouts.layout_utils import assert_focus_path
+
+@matrix_config
+def test_matrix_next_no_clients(manager):
+    manager.c.layout.next()
+    assert manager.c.layout.info()["index"] == 0
+
+@matrix_config
+def test_matrix_previous_no_clients(manager):
+    manager.c.layout.previous()
+    assert manager.c.layout.info()["index"] == 0
+
+def test_unknown_client():
+    """Simple test to get coverage to 100%!"""
+    matrix = Matrix()
+
+    # The layout will not configure an unknown client.
+    # Without the return statement in "configure" the following
+    # code would result in an error
+    assert matrix.configure("fakeclient", None) is None
+
+def test_deprecated_configuration(caplog):
+    _ = Matrix(columns=2)
+    assert "The use of a positional argument in Matrix is deprecated." in caplog.textBarnes
 # Copyright (c) 2014 ramnes
 # Copyright (c) 2014 Sean Vig
 # Copyright (c) 2014 Adi Sieker

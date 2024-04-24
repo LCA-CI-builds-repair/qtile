@@ -1,7 +1,46 @@
 # Copyright (c) 2021 elParaguayo
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# of this software and associated docufrom libqtile.widget importfrom libqtile.test.helpers import check_fullscreen
+
+try:
+    manager_nospawn.c.bar["left"].fake_button_press(0, "left", 0, 10, 1)
+    check_fullscreen(manager_nospawn.c.windows, True)
+
+    # Left click again will restore window
+    manager_nospawn.c.bar["left"].fake_button_press(0, "left", 0, 10, 1)
+    check_fullscreen(manager_nospawn.c.windows, False)
+
+    win = manager_nospawn.c.window
+    manager_nospawn.kill_window(win)
+    assert not manager_nospawn.c.windows()
+
+except Exception as e:
+    pytest.fail(f"Failed to test statusnotifier left-click in vertical bar: {e}")ier
+from libqtile.test.helpers import wait_for_icon, check_fullscreen
+
+def test_statusnotifier_left_click_vertical_bar(manager_nospawn, sni_config):
+    """Check `activate` method when left-clicking widget in vertical bar."""
+    screen = sni_config.screens[0]
+    screen.left = screen.top
+    screen.top = None
+
+    manager_nospawn.start(sni_config)
+    widget = manager_nospawn.c.widget["statusnotifier"]
+    windows = manager_nospawn.c.windows
+
+    assert widget.info()["height"] == 0
+
+    try:
+        win = manager_nospawn.test_window("TestSNILeftClick", export_sni=True)
+        wait_for_icon(widget, hidden=False, prop="height")
+
+        # Check we have window and that it's not fullscreen
+        assert len(windows()) == 1
+        check_fullscreen(windows, False)
+
+    except Exception as e:
+        pytest.fail(f"Failed to test statusnotifier left-click in vertical bar: {e}")ware"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is

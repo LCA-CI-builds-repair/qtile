@@ -4,8 +4,55 @@ Contributing
 
 .. _reporting:
 
-Reporting bugs
-==============
+Rep* Run ``pre-commit* PRs with **multiple commits** should not introduce code in one patch to The CI is co# Contributing to Qtile
+
+Thank you for considering contributing to Qtile! We appreciate your interest in improving the project.
+
+## Pull Requests
+
+When submitting pull requests, please ensure the following:
+- Each commit has a clear and concise message describing the changes.
+- PRs with multiple commits should logically build on each other without introducing unnecessary changes.
+- All unit tests pass locally and in our CI environment.
+- Code changes are accompanied by relevant unit tests to maintain code integrity.
+- Follow coding standards and keep the codebase clean and readable.
+
+## Writing Documentation
+
+Documentation is crucial for understanding the project. When updating or adding documentation:
+- Ensure that the documentation is clear, concise, and up-to-date.
+- Document new features, changes, or configurations introduced in the code.
+- Provide examples and usage scenarios to help users understand the functionality.
+
+## Handling Migrations
+
+When making breaking changes that require migrations:
+- Support old syntax where possible and warn users about deprecations.
+- Provide migration scripts to help users transition smoothly when running ``qtile migrate``.
+
+## Code Quality
+
+Maintaining code quality is essential for the project's longevity. Follow these guidelines:
+- Use meaningful variable and function names for clarity.
+- Include comments to explain complex logic or algorithms.
+- Write clean and efficient code to enhance performance.
+- Conduct code reviews and address feedback to improve code quality continuously.
+
+We appreciate your contributions and collaboration to make Qtile better for all users. Happy coding!figured to run all the environments. Hence it can be time-consuming to make all the tests pass. As stated above, pull requests that don't pass the tests are considered incomplete. Don't forget that this does not only include the functionality, but the style, typing annotations (if necessary), and documentation as well!
+
+Writing migrations
+------------------
+
+Migrations are needed when a commit introduces a change that makes a breaking change to a user's config. Examples include renaming classes, methods, arguments, and moving modules or class definitions.
+
+Where these changes are made, it is strongly encouraged to support the old syntax where possible and warn the user about the deprecations.
+
+Whether or not a deprecation warning is provided, a migration script should be provided that will modify the user's config when they run ``qtile migrate``. later patch. Please do a patch-by-patch review of your PR and make sure each commit passes CI and makes logical sense on its own. In other words: *do* introduce your feature in one commit and maybe add the tests and documentation in a separate commit. *Don't* push commits that partially implement a feature and are basically broken.ll`` to install pre-commit hooks that will ensure your code is compliant before any commit.
+* **Unit tests** that pass locally and in our CI environment (More below). Please add unit tests to ensure that your code works and stays working!
+* **Documentation** updates on an as-needed basis.
+* A ``qtile migrate`` **migration** is required for config-breaking changes. See :doc:`here <commands/shell/qtile-migrate>` for current migrations and refer below for further information.
+* **Code** should not include unrelated changes. Examples of this include formatting changes, replacing quotes or whitespace in other parts of the code, or "fixing" linter warnings popping up in your editor on existing code. Do not include anything like the above!
+* **Widgets** do not need to catch their own exceptions or introduce their own=============
 
 Perhaps the easiest way to contribute to Qtile is to report any bugs you
 run into on the `GitHub issue tracker <https://github.com/qtile/qtile/issues>`_.
