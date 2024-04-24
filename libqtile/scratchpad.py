@@ -2,7 +2,22 @@
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
+# in the Software without restriction, in    def _spawn(self, ddconfig):
+        """
+        Spawn a process defined by command.
+        This method is called when no window is associated, either on the first call to show or after the window is killed.
+        The process ID of the spawned process is saved and compared to new windows. If a match is found, the window is associated with this DropDown object.
+        """
+        name = ddconfig.name
+        if name not in self._spawned:
+            if not self._spawned:
+                hook.subscribe.client_new(self.on_client_new)
+            pid = self.qtile.spawn(ddconfig.command)
+            self._spawned[name] = ddconfig.match or Match(net_wm_pid=pid)
+
+        if not self.dropdowns:
+            hook.unsubscribe.client_killed(self.on_client_killed)
+            hook.unsubscribe.float_change(self.on_float_change)itation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:

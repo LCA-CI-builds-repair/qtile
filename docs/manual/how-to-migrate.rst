@@ -3,7 +3,46 @@ How to write a migration script
 
 Qtile's migration scripts should provide two functions:
 
-* Update config files to fix any breaking changes introduced by a commit
+* Update config files to fix any breaking changes ~~~~~~~~~~~~~~~~~~~~~
+
+All migrations must be thoroughly tested with various        @expose_command
+        def my_exposed_command(self):
+            pass
+
+    def my_func(qtile):
+        qtile.spawn("rickroll")
+        hints = qtile.current_window.get_hints()
+        groups = qtile.get_groups()
+        screens = qtile.get_screens()
+        qtile.current_window.set_opacity(0.5)
+
+    def cmd_some_other_func():
+        pass
+
+The tests check:
+
+- The removal of the "cmd_" prefix on method calls, making necessary updates.
+- Proper usage of the `expose_command` decorator for exposed methods in a class (importing if needed).
+- No changes are made to function definitions outside of class definitions.
+
+:::note
+Tests may fail in the following scenarios:
+- Absence of defined tests
+- Lack of linting output for a `Change` test
+- Missing a `Check` test definition
+
+You can verify your tests by executing `pytest -k <YourMigrationID>`. Please ensure `mypy` is installed for running `Check` tests.
+:::n functions correctly.
+
+In the context of migrations testing, the tests are defined within the `TESTS` attribute.
+
+The `TESTS` attribute should contain instances of `Check`, `Change`, or `NoChange` objects (imported from `libqtile.scripts.migrations._base`).
+
+- A `Change` object requires two parameters: the input code and the expected output.
+- A `NoChange` object specifies only the input, as the output should remain the same.
+- A `Check` object is similar to `Change`, but during test suite execution, the migrated code is verified with `qtile check`. Therefore, the code should include all necessary imports.
+
+Following these guidelines ensures best practices for migration testing:mmit
 * Provide linting summary of errors in existing configs
 
 To do this, we use `LibCST <https://libcst.readthedocs.io/en/latest/>`_ to

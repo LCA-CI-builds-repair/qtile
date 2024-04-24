@@ -4,8 +4,50 @@ Contributing
 
 .. _reporting:
 
-Reporting bugs
-==============
+Rep    Run ``pre-commit in    * PRs with **multiple commits** should not introduce code in one patch to
+          The CI is configured to run all the environments. Hence, it can be time-consuming to make all the tests pass. As stated above, pull requests that don't pass the tests are considered incomplete. Don't forget that this does not only include the functionality, but also the style, typing annotations (if necessary), and documentation!
+
+Writing Migrations
+------------------
+
+Migrations are necessary when a commit introduces a change that results in a breaking change to a user's config. Examples include renaming classes, methods, arguments, and moving modules or class definitions.
+
+When making such changes, it is highly recommended to support the old syntax where feasible and inform the user about any deprecations.
+
+Whether or not a deprecation warning is issued, a migration script should be provided to adjust the user's config when they execute ``qtile migrate``.
+
+For detailed instructions on how to write migrations, refer to the :doc:`how-to-migrate` section. a later patch. Please do a patch-by-patch review of your
+      PR, and make sure each commit passes CI and makes logical sense on its
+      own. In other words: *do* introduce your feature in one commit and maybe
+      add the tests and documentation in a separate commit. *Don't* push commits
+      that partially implement a feature and are basically broken.
+
+.. note:: Others might ban *force-pushes*, we allow them and prefer them over
+   incomplete commits or commits that have a bad and meaningless commit
+   description.
+
+Feel free to add your contribution (no matter how small) to the appropriate
+place in the CHANGELOG as well!
+
+.. _unit-testing:
+
+Unit testing
+------------
+
+We must test each *unit* of code to ensure that new changes to the code do not
+break existing functionality. The framework we use for testing Qtile is `pytest
+<https://docs.pytest.org>`_. While the detailed workings of pytest are beyond
+the scope of this documentation, online tutorials are available to explain how
+to use it effectively.commit hooks that ensure your code is compliant before any commit.
+    * **Unit tests** must pass locally and in our CI environment (details below).
+      Please include unit tests to guarantee that your code works and remains functional!
+    * **Documentation** updates should be made as necessary.
+    * A ``qtile migrate`` **migration** is mandatory for config-breaking changes.
+      Refer to the :doc:`qtile-migrate command <commands/shell/qtile-migrate>` 
+      for current migrations and check below for more details.
+    * **Code** changes should not include *unrelated modifications*. Examples include
+      formatting alterations, quote or whitespace replacements in other code sections,
+      or addressing linter warnings in your editor for existing code. *Avoid including such changes!*==============
 
 Perhaps the easiest way to contribute to Qtile is to report any bugs you
 run into on the `GitHub issue tracker <https://github.com/qtile/qtile/issues>`_.

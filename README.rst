@@ -1,6 +1,25 @@
 |logo|
 
-**A full-featured, hackable tiling window manager written and configured in Python**
+**A full-featured, hackable tiling window manag    :alt: Logo
+    :target: https://qtile.org
+.. |website| image:: https://img.shields.io/badge/website-qtile.org-blue.svg
+    :alt: Website
+    :target: https://qtile.org
+.. |pypi| image:: https://img.shields.io/pypi/v/qtile.svg
+    :alt: PyPI
+    :target: https://pypi.org/project/qtile/
+.. |ci| image:: https://github.com/qtile/qtile/workflows/ci/badge.svg?branch=master
+    :alt: CI Status
+    :target: https://github.com/qtile/qtile/actions
+.. |rtd| image:: https://readthedocs.org/projects/qtile/badge/?version=latest
+    :alt: Read the Docs
+    :target: https://docs.qtile.org/en/latest/
+.. |license| image:: https://img.shields.io/github/license/qtile/qtile.svg
+    :alt: License
+    :target: https://github.com/qtile/qtile/blob/master/LICENSE
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :alt: Code Style
+    :target: https://github.com/psf/blackgured in Python**
 
 |website| |pypi| |ci| |rtd| |license| |black| |coverage|
 

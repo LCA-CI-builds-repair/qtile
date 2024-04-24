@@ -1,7 +1,37 @@
 # Copyright (c) 2021 elParaguayo
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# Permission is hereby granted, free of charge, to     def test_restart_hook(self):
+        self._do_stop = self._stop
+        self._stop = no_op
+
+        # Set up test for restart hook.
+        # Use a counter in manager and increment when hook is fired
+        def inc_restart_call():
+            self.manager.restart_calls.value += 1
+
+        self.manager.restart_calls = Value("i", 0)
+        hook.subscribe.restart(inc_restart_call)
+
+        self.manager.start(TwoScreenConfig)
+
+        # Check that hook hasn't been fired yet.
+        assert self.manager.restart_calls.value == 0
+
+        self.manager.c.group["c"].toscreen(0)
+        self.manager.c.group["d"].toscreen(1)
+
+        self.manager.test_window("one")
+        self.manager.test_window("two")
+        wins = {w["name"]: w["id"] for w in self.manager.c.windows()}
+        self.manager.c.window[wins["one"]].togroup("c")
+        self.manager.c.window[wins["two"]].togroup("d")
+
+        # Inject the code and start the restart
+        self.manager.c.eval(inject)
+        self.manager.c.restart()
+
+        # Check hook fired
+        assert self.manager.restart_calls.value == 1this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is

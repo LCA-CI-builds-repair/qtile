@@ -5,7 +5,24 @@
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# furnished to do so, subject to        logger.debug("Signal: backend new_output_event")
+        output = Output(self, wlr_output)
+        self.outputs.append(output)
+
+        # This is run during tests, when we want to fix the output's geometry
+        if wlr_output.is_headless and "PYTEST_CURRENT_TEST" in os.environ:
+            if len(self.outputs) == 1:
+                # First test output
+                wlr_output.set_custom_mode(800, 600, 0)
+            else:
+                # Second test output
+                wlr_output.set_custom_mode(640, 480, 0)
+            wlr_output.commit()
+            # Let the output layout place it
+            self.output_layout.add_auto(wlr_output)
+        else:
+            # Let the output layout place it
+            self.output_layout.add_auto(wlr_output)onditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.

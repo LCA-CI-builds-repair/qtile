@@ -1,7 +1,19 @@
 # Copyright (c) 2021 Matt Colligan
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# of this software and associated documentation                 # Hack: This is to fix pointer focus on xwayland dialogs
+                # Previously used bring_to_front but it broke fullscreening (xwayland windows always on top)
+                # Now only restack the surface to avoid the issue
+                # Note: If dialog is behind xwayland toplevel and bring front click is false, focus might break
+                # Proper fix needed with z layering
+                self.surface.restack(None, 0)  # XCB_STACK_MODE_ABOVE
+                return
+
+        # First mapping of this window, requires initial setup
+        self.core.pending_windows.remove(self)
+        self._wid = self.core.new_wid()
+        logger.debug("Managing new XWayland window with window ID: %s", self._wid)
+        surface = self.surfaceftware"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
