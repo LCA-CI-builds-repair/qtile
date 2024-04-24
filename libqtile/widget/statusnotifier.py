@@ -1,6 +1,33 @@
-# Copyright (c) 2021 elParaguayo
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
+# Copyright (c) 2021 elfrom typing import Callable, List, Optional
+
+import cairocffi
+from dbus_next import InterfaceNotFound        # Search for the required interface
+        interface_found = False
+        for interface in ITEM_INTERFACES:
+            try:
+                self.item = obj.get_interface(interface)
+                interface_found = True
+                break
+            except InterfaceNotFoundError:
+                continuelidBusNameError, InvalidObjectPathError
+from dbus_next.aio import MessageBus
+from dbus_next.constants import PropertyAccess
+from dbus_next.errors import DBusError
+from dbus_next.service import ServiceInterface, dbus_property, method, signal
+
+try:
+    from xdg.IconTheme import get_icon_path
+
+    has_xdg = True
+except ImportError:
+    has_xdg = False
+
+from libqtile import bar
+from libqtile.images import Img
+from libqtile.log_utils import logger
+from libqtile.resources.status_notifier.statusnotifieritem import STATUS_NOTIFIER_ITEM_SPEC
+from libqtile.utils import add_signal_receiver, create_task
+from libqtile.widget import baseon is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell

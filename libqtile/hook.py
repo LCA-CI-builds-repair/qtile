@@ -1,8 +1,48 @@
 # Copyright (c) 2009-2010 Aldo Cortesi
 # Copyright (c) 2010 Lee McCuller
 # Copyright (c) 2010 matt
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2010, 2012, 2014 roger
+# Copyri        if check_name and registry_name in subscriptions:
+            raise NameError(f"A hook registry already exists with that name: {registry_name}")
+        elif registry_name not in subscriptions:
+            subscriptions[registry_name] = {}
+        self.registry_name = registry_name
+
+    def _subscribe(self, event: str, func: Callable) -> Callable:
+        registry            * ``Group`` receiving the new window
+            * ``Window`` added to the group
+
+        Example:
+
+        .. code:: python
+
+          from libqtile import hook
+          from libqtile.utils import send_notification
+
+          @hook.subscribe.group_window_add
+          def group_window_add(group, window):
+              send_notification("qtile", f"Window {window.name} added to {group.name}")etdefault(self.registry_name, dict())
+        lst = registry.setdefault(event, [])
+        if func not in lst:
+            lst.append(func)
+        return func
+
+    def _register(self, hook: Hook) -> None:
+        def _hook_func(func):
+            return self._subscribe(hook.name, func)
+
+        self.hooks.add(hook.name)
+        setattr(self, hook.name, _hook_func if hook.func is None else hook.func(self))
+        setattr(getattr(self, hook.name), "__doc__", hook.doc)
+
+
+class Unsubscribe(Subscribe):
+    """
+    This class mirrors subscribe, except the _subscribe member has been
+    overridden to remove calls from hooks.
+    """
+
+    def _subscribe(self, event: str, func: Callable) -> None:
+        registry = subscriptions.setdefault(self.registry_name, dict())pyright (c) 2010, 2012, 2014 roger
 # Copyright (c) 2011 Florian Mounier
 # Copyright (c) 2011 Kenji_Takahashi
 # Copyright (c) 2011 Paul Colomiets

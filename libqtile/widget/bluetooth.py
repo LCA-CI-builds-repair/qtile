@@ -4,7 +4,29 @@
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
+# copies of the Software, and to permit per        await self._connect()
+
+    async def _connect(self):
+        """Connect to bus and set up key listeners."""
+        self.bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+
+        # Get the object manager
+        proxy = await self.get_proxy("/")
+        self.object_manager = proxy.get_interface(OBJECT_MANAGER_INTERFACE)
+
+        # Subscribe to signals for new and removed interfaces
+        self.object_manager.on_interfaces_added(self._interface_added)
+        self.object_manager.on_interfaces_removed(self._interface_removed)
+
+        await self._get_managed_objects()
+
+        self.refresh()
+
+    async def get_proxy(self, path):
+        """Provides proxy object after introspecting the given path."""
+        device_introspection = await self.bus.introspect(BLUEZ_SERVICE, path)
+        proxy = self.bus.get_proxy_object(BLUEZ_SERVICE, path, device_introspection)
+        return proxyare is
 # furnished to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in

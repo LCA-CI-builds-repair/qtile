@@ -3,7 +3,39 @@
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# to use,             self.window.unhide()
+
+                  hook.subscribe.startup_complete(s        for i in crashed_widgets:
+            index = self.widgets.index(i)
+
+            # Widgets that aren't available on the current backend should not
+            # be shown as "crashed" as the behaviour is expected. Only notify
+            # for genuine crashes.
+            if not i.supported_backends or (self.qtile.core.name in i.supported_backends):
+                crash = ConfigErrorWidget(widget=i)
+                crash._configure(self.qtile, self)
+                if self.horizontal:
+                    crash.offsety = self.border_width[0]
+                else:
+                    crash.offsetx = self.border_width[3]
+                self.widgets.insert(index, crash)
+                self.widgets.remove(i)
+
+    def _items(self, name: str) -> Union[bool, List[str], None]:
+        if name == "screen" and self.screen is not None:
+            return True, []
+        elif name == "widget" and self.widgets:
+            return False, [w.name for w in self.widgets]
+        return Noneow.process_window_expose = self.draw
+            self.window.process_button_click = self.process_button_click
+            self.window.process_button_release = self.process_button_release
+            self.window.process_pointer_enter = self.process_pointer_enter
+            self.window.process_pointer_leave = self.process_pointer_leave
+            self.window.process_pointer_motion = self.process_pointer_motion
+            self.window.process_key_press = self.process_key_press
+
+            # We create a new drawer even if there's already a window to ensure the
+            # drawer is the right size., merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #

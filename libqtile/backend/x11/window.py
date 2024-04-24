@@ -12,8 +12,25 @@ import xcffib.xproto
 from xcffib.wrappers import GContextID, PixmapID
 from xcffib.xproto import EventMask, SetMode
 
-from libqtile import bar, hook, utils
-from libqtile.backend import base
+from libqtile import         cursor_id = self.conn.cursors[name]
+        mask, values = xcbq.AttributeMasks(cursor=cursor_id)
+        self.conn.conn.core.ChangeWindowAttributesChecked(self.wid, mask, values)
+
+    def set_property(self, name, value, type=None, format=None):
+        """
+        Parameters
+        ==========
+        name: String Atom name
+        type: String Atom name
+        format: 8, 16, 32
+        """
+        if name not in xcbq.PropertyMap:
+            if type is not None or format is not None:
+                raise ValueError("Over-riding default type or format for property.")
+            type, format = xcbq.PropertyMap[name]
+        else:
+            if type is None or format is None:
+                raise ValueError("Must specify type and format for unknown property.")om libqtile.backend import base
 from libqtile.backend.base import FloatStates
 from libqtile.backend.x11 import xcbq
 from libqtile.backend.x11.drawer import Drawer
