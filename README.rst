@@ -1,6 +1,7 @@
 |logo|
 
-**A full-featured, hackable tiling window manager written and configured in Python**
+**A full-featured, hackable tiling window manager writte    :alt: CI status
+    :target: https://github.com/qtile/qtile/actionsand configured in Python**
 
 |website| |pypi| |ci| |rtd| |license| |black| |coverage|
 

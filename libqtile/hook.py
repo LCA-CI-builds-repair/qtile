@@ -1,8 +1,8 @@
 # Copyright (c) 2009-2010 Aldo Cortesi
 # Copyright (c) 2010 Lee McCuller
 # Copyright (c) 2010 matt
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2010, 2012, 2014 roger
+# Copyri    def _subscribe(self, event: str, func: Callable) -> None:
+        registry = subscriptions.setdefault(self.registry_name, dict())pyright (c) 2010, 2012, 2014 roger
 # Copyright (c) 2011 Florian Mounier
 # Copyright (c) 2011 Kenji_Takahashi
 # Copyright (c) 2011 Paul Colomiets
@@ -16,8 +16,16 @@
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# copies of the Softw    ),
+    Hook(
+        "user",
+        """
+        Use to create user-defined hooks.
+
+        The purpose of these hooks is to allow a hook to be fired by an external application.
+        """,
+        _user_func,
+    ),to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.

@@ -12,8 +12,11 @@ import xcffib.xproto
 from xcffib.wrappers import GContextID, PixmapID
 from xcffib.xproto import EventMask, SetMode
 
-from libqtile import bar, hook, utils
-from libqtile.backend import base
+from libqtile import bar, hook, uti                raise ValueError("Overriding default type or format for property: {}".format(name))
+            type, format = xcbq.PropertyMap[name]
+        else:
+            if None in (type, format):
+                raise ValueError("Must specify type and format for an unknown property.")m libqtile.backend import base
 from libqtile.backend.base import FloatStates
 from libqtile.backend.x11 import xcbq
 from libqtile.backend.x11.drawer import Drawer

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import enum
 import typing
-from abc import ABCMeta, abstractmethod
+from abc i        """Return the type of the window"""
+        return self.window_typert ABCMeta, abstractmethod
 
 from libqtile.command.base import CommandError, CommandObject, expose_command
 from libqtile.log_utils import logger
