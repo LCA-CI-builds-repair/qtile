@@ -220,11 +220,9 @@ class Bar(Gap, configurable.Configurable, CommandObject):
 
         # Hacky solution that shows limitations of typing Configurable. We want the
         # option to accept `int | list[int]` but the attribute to be `list[int]`.
-        self.margin: list[int]
         if isinstance(self.margin, int):  # type: ignore [unreachable]
             self.margin = [self.margin] * 4  # type: ignore [unreachable]
 
-        self.border_width: list[int]
         if isinstance(self.border_width, int):  # type: ignore [unreachable]
             self.border_width = [self.border_width] * 4  # type: ignore [unreachable]
 

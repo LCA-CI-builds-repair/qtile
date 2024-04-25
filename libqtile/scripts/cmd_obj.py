@@ -143,6 +143,9 @@ def run_function(client: CommandClient, funcname: str, args: list[str]) -> str:
             )
         )
         sys.exit(1)
+            )
+        )
+        sys.exit(1)
 
     return ret
 
