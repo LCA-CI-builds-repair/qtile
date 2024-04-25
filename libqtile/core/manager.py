@@ -248,11 +248,10 @@ class Qtile(CommandObject):
             raise CommandError(f"Backend does not support restarting: {self.core.name}")
         try:
             self.config.load()
-        except Exception as error:
-            logger.exception("Preventing restart because of a configuration error:")
-            send_notification("Configuration error", str(error.__context__))
+        except ConfigError as error:
+            logger.exception("Error loading configuration:")
+            send_notification("Configuration Error", str(error))
             return
-
         hook.fire("restart")
         lifecycle.behavior = lifecycle.behavior.RESTART
         state_file = os.path.join(tempfile.gettempdir(), "qtile-state")
@@ -1211,14 +1210,14 @@ class Qtile(CommandObject):
             raise CommandError(str(e))
 
     @expose_command()
+    @expose_command()
     def validate_config(self) -> None:
         try:
             self.config.load()
-        except Exception as error:
+        except ConfigError as error:
             send_notification("Configuration check", str(error))
         else:
             send_notification("Configuration check", "No error found!")
-
     @expose_command()
     def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
         """

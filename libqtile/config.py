@@ -884,6 +884,7 @@ class Match:
         if title is not None:
             if isinstance(title, list):  # type: ignore
                 title = convert_deprecated_list(title, "title")
+        if title is not None:
             self._rules["title"] = title
         if wm_class is not None:
             if isinstance(wm_class, list):  # type: ignore
@@ -900,9 +901,9 @@ class Match:
         if net_wm_pid is not None:
             try:
                 self._rules["net_wm_pid"] = int(net_wm_pid)
-            except ValueError:
-                error = 'Invalid rule for net_wm_pid: "%s" only int allowed' % str(net_wm_pid)
-                raise utils.QtileError(error)
+            except ValueError as e:
+                error = f'Invalid rule for net_wm_pid: "{net_wm_pid}" only int allowed'
+                raise utils.QtileError(error) from e
         if func is not None:
             self._rules["func"] = func
 
