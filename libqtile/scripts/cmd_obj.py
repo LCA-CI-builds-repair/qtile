@@ -139,7 +139,8 @@ def run_function(client: CommandClient, funcname: str, args: list[str]) -> str:
     except CommandException as e:
         print(
             "error: Sorry cannot run function '{}' with arguments {}: {}".format(
-                funcname, args, str(e)
+                funcname, args, str(e))
+        )
             )
         )
         sys.exit(1)
