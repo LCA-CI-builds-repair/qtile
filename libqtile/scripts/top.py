@@ -94,7 +94,7 @@ def get_stats(scr, c, group_by="lineno", limit=10, seconds=1.5, force_start=Fals
         for index, stat in enumerate(top_stats[:limit], 1):
             frame = stat.traceback[0]
             # replace "/path/to/module/file.py" with "module/file.py"
-            filename = os.sep.join(frame.filename.split(os.sep)[-2:])
+            filename = os.path.basename(os.path.dirname(frame.filename)) + "/" + os.path.basename(frame.filename)
             code = ""
             line = linecache.getline(frame.filename, frame.lineno).strip()
             if line:

@@ -515,9 +515,9 @@ class Core(base.Core):
                     code,
                     xcffib.xproto.GrabMode.Async,
                     xcffib.xproto.GrabMode.Async,
+                    xcffib.CurrentTime,  # Add current time for time argument
                 )
         return keysym, modmask & self._valid_mask
-
     def ungrab_key(self, key: config.Key | config.KeyChord) -> tuple[int, int]:
         """Ungrab the key corresponding to the given keysym and modifier mask"""
         keysym, modmask = self.lookup_key(key)

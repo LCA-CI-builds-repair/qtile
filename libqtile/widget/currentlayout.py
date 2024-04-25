@@ -85,7 +85,6 @@ class CurrentLayoutIcon(base._TextBox):
     in `custom_icon_paths` argument for this plugin.
 
     The widget will look for icons with a `png` or `svg` extension.
-
     The order of icon search is:
 
     - dirs in `custom_icon_paths` config argument
@@ -93,9 +92,11 @@ class CurrentLayoutIcon(base._TextBox):
     - built-in qtile icons
     """
 
-    orientations = base.ORIENTATION_HORIZONTAL
+    class CurrentLayout(base._TextBox):
+    
+        orientations = base.ORIENTATION_HORIZONTAL
 
-    defaults = [
+        defaults = [
         ("scale", 1, "Scale factor relative to the bar height. Defaults to 1"),
         (
             "custom_icon_paths",

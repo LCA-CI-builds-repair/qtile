@@ -365,7 +365,7 @@ class _Widget(CommandObject, configurable.Configurable):
         def is_ready(timer):
             return timer in self.qtile._eventloop._ready
 
-        self._futures = [
+        self._futures = [future for future in self._futures if not future.done()]
             timer
             for timer in self._futures
             # Filter out certain handles...
