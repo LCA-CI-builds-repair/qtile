@@ -380,14 +380,7 @@ class ScreenRect:
         self.height = height
 
     def __repr__(self) -> str:
-        return "<%s %d,%d %d,%d>" % (
-            self.__class__.__name__,
-            self.x,
-            self.y,
-            self.width,
-            self.height,
-        )
-
+        return f"<{self.__class__.__name__} {self.x},{self.y} {self.width},{self.height}>"
     def hsplit(self, columnwidth: int) -> tuple[ScreenRect, ScreenRect]:
         assert 0 < columnwidth < self.width
         return (
@@ -720,21 +713,20 @@ class Group:
         of the group. If set to ``None``, the display name is set to the name.
 
     """
-
     def __init__(
         self,
         name: str,
         matches: list[Match] | None = None,
         exclusive: bool = False,
-        spawn: str | list[str] | None = None,
-        layout: str | None = None,
-        layouts: list[Layout] | None = None,
+        spawn: Union[str, list[str], None] = None,
+        layout: Union[str, None] = None,
+        layouts: list[Layout] = None,
         persist: bool = True,
         init: bool = True,
         layout_opts: dict[str, Any] | None = None,
-        screen_affinity: int | None = None,
+        screen_affinity: Union[int, None] = None,
         position: int = sys.maxsize,
-        label: str | None = None,
+        label: Union[str, None] = None,
     ) -> None:
         self.name = name
         self.label = label
@@ -742,13 +734,6 @@ class Group:
         self.spawn = spawn
         self.layout = layout
         self.layouts = layouts or []
-        self.persist = persist
-        self.init = init
-        self.matches = matches or []
-        self.layout_opts = layout_opts or {}
-
-        self.screen_affinity = screen_affinity
-        self.position = position
 
     def __repr__(self) -> str:
         attrs = utils.describe_attributes(
@@ -884,6 +869,21 @@ class Match:
         if title is not None:
             if isinstance(title, list):  # type: ignore
                 title = convert_deprecated_list(title, "title")
+        self,
+        title: Union[str, re.Pattern, None] = None,
+        wm_class: Union[str, re.Pattern, None] = None,
+        role: Union[str, re.Pattern, None] = None,
+        wm_type: Union[str, re.Pattern, None] = None,
+        wm_instance_class: Union[str, re.Pattern, None] = None,
+        net_wm_pid: Union[int, None] = None,
+        func: Union[Callable[[base.Window], bool], None] = None,
+        wid: Union[int, None] = None,
+    ) -> None:
+        self._rules: dict[str, Any] = {}
+
+        if title is not None:
+            if isinstance(title, list):  # type: ignore
+                title = convert_deprecated_list(title, "title")
             self._rules["title"] = title
         if wm_class is not None:
             if isinstance(wm_class, list):  # type: ignore
@@ -895,21 +895,6 @@ class Match:
                     wm_instance_class, "wm_instance_class"
                 )
             self._rules["wm_instance_class"] = wm_instance_class
-        if wid is not None:
-            self._rules["wid"] = wid
-        if net_wm_pid is not None:
-            try:
-                self._rules["net_wm_pid"] = int(net_wm_pid)
-            except ValueError:
-                error = 'Invalid rule for net_wm_pid: "%s" only int allowed' % str(net_wm_pid)
-                raise utils.QtileError(error)
-        if func is not None:
-            self._rules["func"] = func
-
-        if role is not None:
-            if isinstance(role, list):  # type: ignore
-                role = convert_deprecated_list(role, "role")
-            self._rules["role"] = role
         if wm_type is not None:
             if isinstance(wm_type, list):  # type: ignore
                 wm_type = convert_deprecated_list(wm_type, "wm_type")
@@ -959,16 +944,17 @@ class Match:
                 value = client.get_wm_type()
 
             # Some of the window.get_...() functions can return None
-            if value is None:
-                return False
-
-            match = self._get_property_predicate(property_name, value)
-            if not match(rule_value):
-                return False
-
-        if not self._rules:
-            return False
-        return True
+                    value = wm_class[0]
+                else:
+                    value = wm_class
+            elif property_name == "role":
+                value = client.get_wm_role()
+            elif property_name == "func":
+                return rule_value(client)
+            elif property_name == "net_wm_pid":
+                value = client.get_pid()
+            elif property_name == "wid":
+                value = client.window.wid
 
     def map(self, callback: Callable[[base.Window], Any], clients: list[base.Window]) -> None:
         """Apply callback to each client that matches this Match"""
@@ -977,29 +963,40 @@ class Match:
                 callback(c)
 
     def __repr__(self) -> str:
-        return "<Match %s>" % self._rules
+    def compare(self, client: base.Window) -> bool:
+        """Evaluate a Match against a client window"""
+        for rule_name, rule_value in self._rules.items():
+            if rule_name == "title":
+                if not client.match_wm_name(rule_value):
+                    return False
+            elif rule_name == "wm_class":
+                if not client.match_wm_class(rule_value):
+                    return False
+            elif rule_name == "role":
+                if not client.match_wm_role(rule_value):
+                    return False
+            elif rule_name == "func":
+                if not rule_value(client):
+                    return False
+            elif rule_name == "net_wm_pid":
+                if not client.match_pid(rule_value):
+                    return False
+            elif rule_name == "wid":
+                if not client.match_wid(rule_value):
+                    return False
+        return True
 
+    def map(self, callback: Callable[[base.Window], Any], clients: list[base.Window]) -> list[base.Window]:
+        """Apply callback to each client that matches this Match"""
+        matched_clients = []
+        for c in clients:
+            if self.compare(c):
+                callback(c)
+                matched_clients.append(c)
+        return matched_clients
 
-class Rule:
-    """
-    How to act on a match.
-
-    A :class:`Rule` contains a list of :class:`Match` objects, and a specification about
-    what to do when any of them is matched.
-
-    Parameters
-    ==========
-    match:
-        :class:`Match` object or a list of such associated with this rule.
-    float:
-        Should we auto float this window?
-    intrusive:
-        Should we override the group's exclusive setting?
-    break_on_match:
-        Should we stop applying rules if this rule is matched?
-
-    """
-
+    def __repr__(self) -> str:
+        return f"<Match {self._rules}>"
     def __init__(
         self,
         match: Match | list[Match],
