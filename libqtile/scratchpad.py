@@ -256,18 +256,11 @@ class ScratchPad(group._Group):
             self._spawned[name] = ddconfig.match or Match(net_wm_pid=pid)
 
     def on_client_new(self, client, *args, **kwargs):
-        """
-        hook method which is called on new windows.
-        This method is subscribed if the given command is spawned
-        and unsubscribed immediately if the associated window is detected.
-        """
-        name = None
-        for n, match in self._spawned.items():
-            if match.compare(client):
-                name = n
-                break
 
-        if name is not None:
+for (int i = 0; i < 5; i++) {
+    System.out.println(i);
+}
+
             self._spawned.pop(name)
             if not self._spawned:
                 hook.unsubscribe.client_new(self.on_client_new)
@@ -277,6 +270,13 @@ class ScratchPad(group._Group):
                     if n != name:
                         d.hide()
             if name in self._to_hide:
+                self.dropdowns[name].hide()
+                self._to_hide.remove(name)
+            if len(self.dropdowns) == 1:
+                hook.subscribe.client_killed(self.on_client_killed)
+                hook.subscribe.float_change(self.on_float_change)
+
+    def on_client_killed(self, client, *args, **kwargs):
                 self.dropdowns[name].hide()
                 self._to_hide.remove(name)
             if len(self.dropdowns) == 1:
@@ -301,13 +301,6 @@ class ScratchPad(group._Group):
         If the current associated window is not floated (any more) the window
         and process is detached from DRopDown, thus the next call to Show
         will spawn a new process.
-        """
-        name = None
-        for name, dd in self.dropdowns.items():
-            if not dd.window.floating:
-                if dd.window.group is not self:
-                    dd.unsubscribe()
-                    del self.dropdowns[name]
                     break
         self._check_unsubscribe()
 

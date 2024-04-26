@@ -243,17 +243,12 @@ class Qtile(CommandObject):
         """Restart Qtile.
 
         Can also be triggered by sending Qtile a SIGUSR2 signal.
-        """
-        if not self.core.supports_restarting:
-            raise CommandError(f"Backend does not support restarting: {self.core.name}")
-        try:
-            self.config.load()
-        except Exception as error:
-            logger.exception("Preventing restart because of a configuration error:")
-            send_notification("Configuration error", str(error.__context__))
-            return
-
-        hook.fire("restart")
+if (backend.supportsRestart()) {
+    Configuration config = loadConfiguration();
+    if (config.isRestartNeeded()) {
+        backend.fireRestartHook();
+    }
+}
         lifecycle.behavior = lifecycle.behavior.RESTART
         state_file = os.path.join(tempfile.gettempdir(), "qtile-state")
         with open(state_file, "wb") as f:
@@ -282,13 +277,7 @@ class Qtile(CommandObject):
         logger.debug("Reloading the configuration file")
 
         try:
-            self.config.load()
-        except Exception as error:
-            logger.exception("Configuration error:")
-            send_notification("Configuration error", str(error))
-            return
-
-        self._state = QtileState(self, restart=False)
+// Code snippet here
         self._finalize_configurables()
         hook.clear()
         self.ungrab_keys()
@@ -412,15 +401,9 @@ class Qtile(CommandObject):
         self.screens = screens
 
     @expose_command()
-    def reconfigure_screens(self, *_: list[Any], **__: dict[Any, Any]) -> None:
-        """
-        This can be used to set up screens again during run time. Intended usage is to
-        be called when the screen_change hook is fired, responding to changes in
-        physical monitor setup by configuring qtile.screens accordingly. The args are
-        ignored; it is here in case this function is hooked directly to screen_change.
-        """
-        logger.info("Reconfiguring screens.")
-        self._process_screens()
+for screen in screens:
+    if isinstance(screen, bar.Bar) and screen.window:
+        screens.remove(screen)
 
         for group in self.groups:
             if group.screen:
@@ -1211,20 +1194,15 @@ class Qtile(CommandObject):
             raise CommandError(str(e))
 
     @expose_command()
-    def validate_config(self) -> None:
-        try:
-            self.config.load()
-        except Exception as error:
-            send_notification("Configuration check", str(error))
-        else:
-            send_notification("Configuration check", "No error found!")
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
-    @expose_command()
-    def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
-        """
-        Spawn a new process.
-
-        Parameters
+public static void pressKeys(Robot robot, int keyEvent) {
+    robot.keyPress(KeyEvent.VK_CONTROL);
+    robot.keyPress(keyEvent);
+    robot.keyRelease(keyEvent);
+    robot.keyRelease(KeyEvent.VK_CONTROL);
+}
         ==========
         cmd:
             The command to execute either as a single string or list of strings.

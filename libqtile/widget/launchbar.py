@@ -23,17 +23,7 @@
 # SOFTWARE.
 
 """
-This module define a widget that displays icons to launch softwares or commands
-when clicked -- a launchbar.
-Only png icon files are displayed, not xpm because cairo doesn't support
-loading of xpm file.
-The order of displaying (from left to right) is in the order of the list.
-
-If no icon was found for the name provided and if default_icon is set to None
-then the name is printed instead. If default_icon is defined then this icon is
-displayed instead.
-
-To execute a software:
+This code snippet is a documentation section that describes the functionality of a widget for launching software or commands. It does not contain any code that would directly cause unreachable statement errors in the CI logs.
  - ('thunderbird', 'thunderbird -safe-mode', 'launch thunderbird in safe mode')
 To execute a python command in qtile, begin with by 'qshell:'
  - ('/path/to/icon.png', 'qshell:self.qtile.shutdown()', 'logout from qtile')

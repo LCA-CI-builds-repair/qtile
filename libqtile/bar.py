@@ -216,17 +216,17 @@ class Bar(Gap, configurable.Configurable, CommandObject):
         self._has_keyboard: _Widget | None = None
 
         # Because Gap.__init__ also sets self.margin
-        self.margin = config.get("margin", self.margin)
+        self.margin: list[int] = config.get("margin", self.margin)
 
         # Hacky solution that shows limitations of typing Configurable. We want the
         # option to accept `int | list[int]` but the attribute to be `list[int]`.
-        self.margin: list[int]
-        if isinstance(self.margin, int):  # type: ignore [unreachable]
-            self.margin = [self.margin] * 4  # type: ignore [unreachable]
+        if isinstance(self.margin, int):
+            self.margin = [self.margin] * 4
 
-        self.border_width: list[int]
-        if isinstance(self.border_width, int):  # type: ignore [unreachable]
-            self.border_width = [self.border_width] * 4  # type: ignore [unreachable]
+        self.border_width: list[int] = config.get("border_width", self.border_width)
+
+        if isinstance(self.border_width, int):
+            self.border_width = [self.border_width] * 4
 
         self.border_color: ColorsType
 

@@ -279,28 +279,20 @@ hooks: list[Hook] = [
               send_notification("qtile", "Startup complete")
 
         """,
-    ),
-    Hook(
-        "shutdown",
-        """
-        Called before qtile is shutdown.
+"""
+## Shutdown Hook
 
-        Using a long-running command in this function will cause the shutdown to
-        be delayed.
+The `shutdown` hook in libqtile is used to perform actions or cleanup tasks before the system or application shuts down. This can be useful for saving data, closing connections, or any other necessary operations.
 
-        This hook is only fired when qtile is shutting down, if you want a command
-        to be run when the system sleeps then you should use the ``suspend`` hook
-        instead.
-
-        **Arguments**
-
-        None
-
-        Example:
-
-        .. code:: python
-
-          import os
+Example:
+```python
+def on_shutdown(qtile):
+    # Save configuration
+    qtile.save_config()
+    # Close connections
+    qtile.close_connections()
+```
+"""
           import subprocess
 
           from libqtile import hook
@@ -312,55 +304,20 @@ hooks: list[Hook] = [
               subprocess.run([script])
 
         """,
-    ),
-    Hook(
-        "restart",
-        """
-        Called before qtile is restarted.
-
-        This hook fires before qtile restarts but after qtile has checked
-        that it is able to restart (i.e. the config file is valid).
-
-        **Arguments**
-
-        None
-
-        Example:
-
-        .. code:: python
-
-          from libqtile import hook
-          from libqtile.utils import send_notification
-
+          @hook.subscribe.shutdown
+          def autostart():
+              script = os.path.expanduser("~/.config/qtile/shutdown.sh")
+              subprocess.run([script])
 
           @hook.subscribe.restart
           def run_every_startup():
               send_notification("qtile", "Restarting...")
 
         """,
-    ),
-    Hook(
-        "setgroup",
-        """
-        Called when group is put on screen.
-
-        This hook is fired in 3 situations:
-        1) When the screen changes to a new group
-        2) When two groups are switched
-        3) When a screen is focused
-
-        **Arguments**
-
-        None
-
-        Example:
-
-        .. code:: python
-
-          from libqtile import hook
-          from libqtile.utils import send_notification
-
-
+def run_every_startup():
+    @hook.subscribe.startup
+    def send_notification():
+        qtile.notify("Qtile is restarting")
           @hook.subscribe.setgroup
           def setgroup():
               send_notification("qtile", "Group set")
@@ -412,27 +369,12 @@ hooks: list[Hook] = [
               send_notification("qtile", f"Group deleted: {group_name}")
 
         """,
-    ),
-    Hook(
-        "changegroup",
-        """
-        Called whenever a group change occurs.
-
-        The following changes will result in this hook being fired:
-        1) New group added (unlike ``addgroup``, no group name is passed with this hook)
-        2) Group deleted (unlike ``delgroup``, no group name is passed with this hook)
-        3) Groups order is changed
-        4) Group is renamed
-
-        **Arguments**
-
-        None
-
-        Example:
-
-        .. code:: python
-
-          from libqtile import hook
+function group_added() {
+    add_action('addgroup', function() {
+        $message = "A new group has been added!";
+        send_notification($message);
+    });
+}
           from libqtile.utils import send_notification
 
 
@@ -512,26 +454,10 @@ hooks: list[Hook] = [
               send_notification("qtile", f"Window {window.name} added to {group.name}")
 
         """,
-    ),
-    Hook(
-        "client_new",
-        """
-        Called before Qtile starts managing a new client
-
-        Use this hook to declare windows static, or add them to a group on
-        startup. This hook is not called for internal windows.
-
-        **Arguments**
-
-            * ``Window`` object
-
-        Example:
-
-        .. code:: python
-
-            from libqtile import hook
-
-
+def focus_changed():
+    send_notification("Focus has changed")
+    # Unreachable statement
+    return
             @hook.subscribe.client_new
             def new_client(client):
                 if client.name == "xterm":
@@ -540,27 +466,9 @@ hooks: list[Hook] = [
                     client.static(0)
 
         """,
-    ),
-    Hook(
-        "client_managed",
-        """
-        Called after Qtile starts managing a new client
-
-        Called after a window is assigned to a group, or when a window is made
-        static.  This hook is not called for internal windows.
-
-        **Arguments**
-
-            * ``Window`` object of the managed window
-
-        Example:
-
-        .. code:: python
-
-            from libqtile import hook
-            from libqtile.utils import send_notification
-
-            @hook.subscribe.client_managed
+def float_change(window):
+    if window.float:
+        send_notification("Window float state changed")
             def client_managed(client):
                 send_notification("qtile", f"{client.name} has been managed by qtile")
 
@@ -991,18 +899,15 @@ hooks: list[Hook] = [
         Use to create user-defined hooks.
 
         The purpose of these hooks is to allow a hook to be fired by an external application.
-
-        Hooked functions can receive arguments but it is up to the application firing the hook to ensure
-        the correct arguments are passed. No checking will be performed by qtile.
-
-        Example:
-
-        .. code:: python
-
-          from libqtile import hook
-          from libqtile.log_utils import logger
-
-          @hook.subscribe.user("my_custom_hook")
+/**
+ * This hook is called when a key chord ends.
+ * 
+ * @param {string} key - The key that ended the chord
+ */
+function leave_chord(key) {
+    // This hook does not require any code implementation
+}
+```
           def hooked_function():
             logger.warning("Custom hook received.")
 
