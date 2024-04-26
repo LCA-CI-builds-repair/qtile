@@ -348,7 +348,6 @@ class Mpd2(base.ThreadPoolText):
             fmt = str(fmt)
 
         formatted = fmt.format_map(song_info)
-
         if self.color_progress and status["state"] != "stop":
             try:
                 progress = int(len(formatted) * elapsed / total)

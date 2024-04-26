@@ -365,11 +365,11 @@ class XWindow:
         If unpack is specified, a tuple of values is returned.  The type to
         unpack, either `str` or `int` must be specified.
         """
-        if type is None:
+        if property_type is None:
             if prop not in xcbq.PropertyMap:
                 raise ValueError("Must specify type for unknown property.")
             else:
-                type, _ = xcbq.PropertyMap[prop]
+                property_type, _ = xcbq.PropertyMap[prop]
 
         try:
             r = self.conn.conn.core.GetProperty(

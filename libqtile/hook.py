@@ -105,10 +105,10 @@ class Hook:
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
         self.hooks = set([])
-        if check_name and registry_name in subscriptions:
-            raise NameError("A hook registry already exists with that name: {registry_name}")
-        elif registry_name not in subscriptions:
-            subscriptions[registry_name] = {}
+        if check_name and self.registry_name in subscriptions:
+            raise NameError(f"A hook registry already exists with that name: {self.registry_name}")
+        elif self.registry_name not in subscriptions:
+            subscriptions[self.registry_name] = {}
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
@@ -982,7 +982,6 @@ hooks: list[Hook] = [
         Example:
 
         .. code:: python
-
           from libqtile import hook
           from libqtile.log_utils import logger
 

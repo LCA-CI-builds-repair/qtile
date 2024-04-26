@@ -465,7 +465,7 @@ class StatusNotifierWatcher(ServiceInterface):  # noqa: E303
             self.StatusNotifierHostRegistered(service)
 
     @dbus_property(access=PropertyAccess.READ)
-    def RegisteredStatusNotifierItems(self) -> "as":  # type: ignore  # noqa: F722, F821, N802
+    def RegisteredStatusNotifierItems(self) -> "as":  # type: ignore  # noqa: F722, F821, F821, N802
         return self._items
 
     @dbus_property(access=PropertyAccess.READ)
@@ -546,67 +546,7 @@ class StatusNotifierHost:  # noqa: E303
             return
 
         self.bus = await MessageBus().connect()
-        await self.bus.request_name("org.freedesktop.StatusNotifierHost-qtile")
-        for iface in BUS_NAMES:
-            w = StatusNotifierWatcher(iface)
-            w.on_item_added = self.add_item
-            w.on_item_removed = self.remove_item
-            await w.start()
-
-            # Not quite following spec here as we're not registering
-            # the host on the bus.
-            w.RegisterStatusNotifierHost(self.name)
-            self.watchers.append(w)
-            self.started = True
-
-    def item_added(self, item, service, future):
-        success = future.result()
-        # If StatusNotifierItem object was created successfully then we
-        # add to our list and redraw the bar
-        if success:
-            self.items.append(item)
-            for callback in self._on_item_added:
-                callback(item)
-
-        # It's an invalid item so let's remove it from the watchers
-        else:
-            for w in self.watchers:
-                try:
-                    w._items.remove(service)
-                except ValueError:
-                    pass
-
-    def add_item(self, service, path=None):
-        """
-        Creates a StatusNotifierItem for the given service and tries to
-        start it.
-        """
-        item = StatusNotifierItem(self.bus, service, path=path, icon_theme=self.icon_theme)
-        item.on_icon_changed = self.item_icon_changed
-        if item not in self.items:
-            task = create_task(item.start())
-            task.add_done_callback(partial(self.item_added, item, service))
-
-    def remove_item(self, interface):
-        # Check if the interface is in out list of items and, if so,
-        # remove it and redraw the bar
-        if interface in self.items:
-            self.items.remove(interface)
-            for callback in self._on_item_removed:
-                callback(interface)
-
-    def item_icon_changed(self, item):
-        for callback in self._on_icon_changed:
-            callback(item)
-
-
-host = StatusNotifierHost()  # noqa: E303
-
-
-class StatusNotifier(base._Widget):
-    """
-    A 'system tray' widget using the freedesktop StatusNotifierItem
-    specification.
+        await self.bus.request_name("org.freedesktop")
 
     As per the specification, app icons are first retrieved from the
     user's current theme. If this is not available then the app may
