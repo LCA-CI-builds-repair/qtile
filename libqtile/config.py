@@ -907,7 +907,7 @@ class Match:
             self._rules["func"] = func
 
         if role is not None:
-            if isinstance(role, list):  # type: ignore
+            if not isinstance(role, list):  # type: ignore
                 role = convert_deprecated_list(role, "role")
             self._rules["role"] = role
         if wm_type is not None:
