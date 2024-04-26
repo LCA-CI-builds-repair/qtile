@@ -117,8 +117,12 @@ def test_cnli_error_handling(fake_qtile, patched_cnli, fake_window):
     MockCapsNumLockIndicator.is_error = True
 
     fakebar = FakeBar([widget], window=fake_window)
+    
+    # Configure the widget with the fake qtile and fake bar
     widget._configure(fake_qtile, fakebar)
+    
+    # Poll the widget to get the text
     text = widget.poll()
 
-    # Widget does nothing with error message so text is blank
+    # Assert that the text is blank since the widget does nothing with the error message
     assert text == ""

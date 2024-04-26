@@ -164,12 +164,31 @@ class FontDescription:
         return ffi.string(ret).decode()
 
     def set_absolute_size(self, size):
+    def set_absolute_size(self, size):
+        """
+        Set the absolute size of the font description.
+
+        Args:
+            size: The size to set.
+        """
         pango.pango_font_description_set_absolute_size(self._pointer, size)
 
     def set_size(self, size):
+        """
+        Set the size of the font description.
+
+        Args:
+            size: The size to set.
+        """
         pango.pango_font_description_set_size(self._pointer, size)
 
     def get_size(self):
+        """
+        Get the size of the font description.
+
+        Returns:
+            The size of the font description.
+        """
         return pango.pango_font_description_get_size(self._pointer)
 
 

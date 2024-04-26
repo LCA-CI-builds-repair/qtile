@@ -182,12 +182,11 @@ class ModuleRenames(_QtileMigrator):
     )
 
     def run(self, original_node):
-        # Run the base transformer first...
-        # This fixes simple replacements
+        # Run the base transformer first to fix simple replacements
         transformer = ModuleRenamesTransformer()
         updated = original_node.visit(transformer)
 
-        # Update details of linting
+        # Update details of linting after applying transformer
         self.update_lint(transformer)
 
         # Check if we found any 'from libqtile import ...` lines which

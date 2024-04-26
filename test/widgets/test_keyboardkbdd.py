@@ -28,18 +28,33 @@
 import sys
 from importlib import reload
 from types import ModuleType
-
 import pytest
 
 from test.widgets.conftest import FakeBar
 
 
 async def mock_signal_receiver(*args, **kwargs):
+    """
+    Mock function to receive signals.
+
+    Args:
+        *args: Variable length arguments.
+        **kwargs: Arbitrary keyword arguments.
+
+    Returns:
+        bool: True if the signal is received successfully.
+    """
     return True
 
 
 class Mockconstants(ModuleType):
+    """
+    Mock class for constants.
+    """
     class MessageType:
+        """
+        Mock nested class for message types.
+        """
         SIGNAL = 1
 
 

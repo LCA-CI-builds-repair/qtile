@@ -78,8 +78,8 @@ class WindowVisibilityToggler:
     @property
     def visible(self):
         """
-        Determine if associated window is currently visible.
-        That is the window is on a group different from the scratchpad
+        Determine if the associated window is currently visible.
+        The window is considered visible if it is on a group different from the scratchpad
         and that group is the current visible group.
         """
         if self.window.group is None:

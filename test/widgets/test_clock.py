@@ -57,10 +57,10 @@ def patched_clock(monkeypatch):
     monkeypatch.setitem(sys.modules, "dateutil.tz", None)
 
     # Reload module to force ImportErrors
+    # Reload the clock module to apply changes
     reload(clock)
 
-    # Override datetime.
-    # This is key for testing as we can fix time.
+    # Override datetime with MockDatetime for testing purposes
     monkeypatch.setattr("libqtile.widget.clock.datetime", MockDatetime)
 
 

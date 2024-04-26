@@ -42,7 +42,7 @@ pytestmark = pytest.mark.skipif(not is_cpython() or not have_mypy(), reason="nee
 def run_qtile_check(config):
     # make sure we have mypy so we can type check the config
     if shutil.which("mypy") is None:
-        raise Exception("missing mypy in test environment")
+        raise EnvironmentError("missing mypy in test environment")
     cmd = os.path.join(os.path.dirname(__file__), "..", "bin", "qtile")
     argv = [cmd, "check", "-c", config]
     try:

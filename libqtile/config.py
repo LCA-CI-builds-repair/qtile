@@ -261,6 +261,7 @@ class EzConfig:
             if len(key) == 1:
                 keys.append(key)
                 continue
+            # Check if the key length is greater than 3 and formatted as <key>
             if len(key) > 3 and key[0] == "<" and key[-1] == ">":
                 keys.append(key[1:-1])
                 continue
@@ -301,7 +302,6 @@ class EzKeyChord(EzConfig, KeyChord):
     Define a key chord using the Emacs-like format.
 
     Parameters
-    ==========
     keydef:
         The Emacs-like key specification, e.g. ``"M-S-a"``.
     submappings:
@@ -312,6 +312,7 @@ class EzKeyChord(EzConfig, KeyChord):
         the sequence has ended.
     name:
         A string to name the chord. The name will be displayed in the Chord
+        widget.
         widget.
     desc:
         A string to describe the chord. This attribute is not directly used by Qtile
@@ -380,7 +381,7 @@ class ScreenRect:
         self.height = height
 
     def __repr__(self) -> str:
-        return "<%s %d,%d %d,%d>" % (
+            # Add the method call or attribute usage here with the listed attributes
             self.__class__.__name__,
             self.x,
             self.y,
@@ -529,11 +530,9 @@ class Screen(CommandObject):
             return
 
         if new_group.screen == self:
-            return
-
         if save_prev and new_group is not self.group:
-            # new_group can be self.group only if the screen is getting configured for
-            # the first time
+            # Save the previous group if the new group is different from the current group.
+            # This condition prevents saving the previous group if the screen is being configured for the first time.
             self.previous_group = self.group
 
         if new_group.screen:
@@ -638,12 +637,17 @@ class Screen(CommandObject):
         if w is None:
             w = self.width
         if h is None:
+        if h is None:
+            # Adjust the height to the default height if h is not specified
             h = self.height
+        
+        # Configure the layout with the specified parameters
         self._configure(self.qtile, self.index, x, y, w, h, self.group)
+        
+        # Draw the bars if they are defined
         for bar in [self.top, self.bottom, self.left, self.right]:
             if bar:
                 bar.draw()
-        self.group.layout_all()
 
     @expose_command()
     def info(self) -> dict[str, int]:
@@ -720,7 +724,6 @@ class Group:
         of the group. If set to ``None``, the display name is set to the name.
 
     """
-
     def __init__(
         self,
         name: str,
@@ -736,6 +739,23 @@ class Group:
         position: int = sys.maxsize,
         label: str | None = None,
     ) -> None:
+        """
+        Initialize a Group object with the specified parameters.
+
+        Parameters:
+            name (str): The name of the group.
+            matches (list[Match] | None): The list of Match objects for the group.
+            exclusive (bool): Flag indicating if the group is exclusive.
+            spawn (str | list[str] | None): The command(s) to spawn for the group.
+            layout (str | None): The layout for the group.
+            layouts (list[Layout] | None): The list of layouts for the group.
+            persist (bool): Flag indicating if the group should persist.
+            init (bool): Flag indicating if the group should be initialized.
+            layout_opts (dict[str, Any] | None): Additional layout options for the group.
+            screen_affinity (int | None): The screen affinity for the group.
+            position (int): The position of the group.
+            label (str | None): The label for the group.
+        """
         self.name = name
         self.label = label
         self.exclusive = exclusive
@@ -812,9 +832,13 @@ class ScratchPad(Group):
         self.single = single
 
     def __repr__(self) -> str:
-        return "<config.ScratchPad %r (%s)>" % (
-            self.name,
-            ", ".join(dd.name for dd in self.dropdowns),
+class Match:
+    """
+    Window properties to compare (match) with a window.
+
+    Attributes:
+        Add any relevant attributes that define window properties to match.
+    """
         )
 
 
@@ -884,36 +908,55 @@ class Match:
         if title is not None:
             if isinstance(title, list):  # type: ignore
                 title = convert_deprecated_list(title, "title")
-            self._rules["title"] = title
-        if wm_class is not None:
-            if isinstance(wm_class, list):  # type: ignore
-                wm_class = convert_deprecated_list(wm_class, "wm_class")
-            self._rules["wm_class"] = wm_class
-        if wm_instance_class is not None:
-            if isinstance(wm_instance_class, list):  # type: ignore
-                wm_instance_class = convert_deprecated_list(
-                    wm_instance_class, "wm_instance_class"
-                )
-            self._rules["wm_instance_class"] = wm_instance_class
-        if wid is not None:
-            self._rules["wid"] = wid
-        if net_wm_pid is not None:
-            try:
-                self._rules["net_wm_pid"] = int(net_wm_pid)
-            except ValueError:
-                error = 'Invalid rule for net_wm_pid: "%s" only int allowed' % str(net_wm_pid)
-                raise utils.QtileError(error)
-        if func is not None:
-            self._rules["func"] = func
-
-        if role is not None:
-            if isinstance(role, list):  # type: ignore
                 role = convert_deprecated_list(role, "role")
             self._rules["role"] = role
         if wm_type is not None:
             if isinstance(wm_type, list):  # type: ignore
                 wm_type = convert_deprecated_list(wm_type, "wm_type")
             self._rules["wm_type"] = wm_type
+
+    @staticmethod
+    def _get_property_predicate(name: str, value: Any) -> Callable[..., bool]:
+        """
+        Get the property predicate based on the name and value provided.
+
+        Args:
+            name (str): The name of the property.
+            value (Any): The value of the property.
+
+        Returns:
+            Callable[..., bool]: The property predicate function.
+        """
+        if name == "net_wm_pid" or name == "wid":
+            return lambda other: other == value
+        elif name == "wm_class":
+
+            def predicate(other) -> bool:  # type: ignore
+                match = getattr(other, "match", lambda v: v == other)
+                return value and any(match(v) for v in value)
+
+            return predicate
+        else:
+
+            def predicate(other) -> bool:  # type: ignore
+                match = getattr(other, "match", lambda v: v == other)
+                return match(value)
+
+            return predicate
+
+    def compare(self, client: base.Window) -> bool:
+        """
+        Compare the client window properties with the rules set for matching.
+
+        Args:
+            client (base.Window): The client window to compare.
+
+        Returns:
+            bool: True if the properties match the rules, False otherwise.
+        """
+        value: Any
+        for property_name, rule_value in self._rules.items():
+            if property_name == "title":
 
     @staticmethod
     def _get_property_predicate(name: str, value: Any) -> Callable[..., bool]:
@@ -954,17 +997,25 @@ class Match:
             elif property_name == "net_wm_pid":
                 value = client.get_pid()
             elif property_name == "wid":
-                value = client.wid
-            else:
-                value = client.get_wm_type()
+    """
+    Rule class to define matching rules for windows.
 
-            # Some of the window.get_...() functions can return None
-            if value is None:
-                return False
+    Attributes:
+        match (Match | list[Match]): The Match object or list of Match objects to define window matching.
+        group (_Group | None): The group associated with the rule.
+        float (bool): Flag indicating if the window should float.
+        intrusive (bool): Flag indicating if the window should be intrusive.
+        break_on_match (bool): Flag indicating if the matching should break on the first match.
+    """
 
-            match = self._get_property_predicate(property_name, value)
-            if not match(rule_value):
-                return False
+    def __init__(
+        self,
+        match: Match | list[Match],
+        group: _Group | None = None,
+        float: bool = False,
+        intrusive: bool = False,
+        break_on_match: bool = True,
+    ) -> None:
 
         if not self._rules:
             return False
@@ -1094,14 +1145,14 @@ class DropDown(configurable.Configurable):
         self.add_defaults(self.defaults)
 
     def info(self) -> dict[str, Any]:
-        return dict(
-            name=self.name,
-            command=self.command,
-            x=self.x,
-            y=self.y,
-            width=self.width,
-            height=self.height,
-            opacity=self.opacity,
-            on_focus_lost_hide=self.on_focus_lost_hide,
-            warp_pointer=self.warp_pointer,
-        )
+class Rule:
+    """
+    Class to define rules for window matching and behavior.
+
+    Attributes:
+        match (Match | list[Match]): The criteria for matching windows.
+        group (_Group | None): The group associated with the rule.
+        float (bool): Flag indicating if the window should float.
+        intrusive (bool): Flag indicating if the window should be intrusive.
+        break_on_match (bool): Flag indicating if the matching should break on the first match.
+    """

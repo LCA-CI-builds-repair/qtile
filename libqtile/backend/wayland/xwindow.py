@@ -167,6 +167,7 @@ class XWindow(Window[xwayland.Surface]):
                 # So we now only restack the surface
                 # This means that if the dialog is behind the xwayland toplevel (and bring front click being false), focus might break
                 # We need to fix this properly with z layering
+                # Restack the surface above other windows
                 self.surface.restack(None, 0)  # XCB_STACK_MODE_ABOVE
                 return
 

@@ -240,14 +240,19 @@ def import_class(
     """Import a class safely
 
     Try to import the class module, and if it fails because of an ImportError
-    it logs on WARNING, and logs the traceback on DEBUG level
+    """
+    This function imports a class dynamically based on the provided module path and class name.
+    It logs a warning if there is an ImportError and logs the traceback at DEBUG level.
     """
     try:
         module = importlib.import_module(module_path, __package__)
         return getattr(module, class_name)
     except ImportError:
+        # Log an exception with details of unmet dependencies
         logger.exception("Unmet dependencies for '%s.%s':", module_path, class_name)
+        
         if fallback:
+            # Log the traceback at DEBUG level
             logger.debug("%s", traceback.format_exc())
             return fallback(module_path, class_name)
         raise

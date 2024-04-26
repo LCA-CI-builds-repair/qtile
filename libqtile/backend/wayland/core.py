@@ -1489,15 +1489,14 @@ class Core(base.Core, wlrq.HasListeners):
             win.kill()
 
         # give everyone a little time to exit and write their state. but don't
-        # sleep forever (1s).
-        end = time.time() + 1
-        while time.time() < end:
-            self._poll()
-            if not self.qtile.windows_map:
-                break
-
     @property
     def painter(self) -> Any:
+        """
+        Get the painter associated with the Wayland core.
+        
+        Returns:
+            Any: The painter object.
+        """
         return wlrq.Painter(self)
 
     def remove_output(self, output: Output) -> None:

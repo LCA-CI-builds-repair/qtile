@@ -380,7 +380,10 @@ class XWindow:
                 0,
                 (2**32) - 1,
             ).reply()
-        except (xcffib.xproto.WindowError, xcffib.xproto.AccessError):
+        except xcffib.xproto.WindowError:
+            # Handle WindowError exception
+        except xcffib.xproto.AccessError:
+            # Handle AccessError exception
             logger.debug("X error in GetProperty (wid=%r, prop=%r), ignoring", self.wid, prop)
             if unpack:
                 return []

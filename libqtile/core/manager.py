@@ -673,9 +673,12 @@ class Qtile(CommandObject):
     ) -> None:
         """
         Free up space that has previously been reserved at the edge(s) of a screen.
+        
+        Parameters:
+            reserved_space (tuple[int, int, int, int]): The reserved space to be freed [left, right, top, bottom].
+            screen (Screen): The screen from which to free the reserved space.
         """
-        # mypy can't work out that the new tuple is also length 4 (see mypy #7509)
-        reserved_space = tuple(-i for i in reserved_space)  # type: ignore
+        reserved_space = tuple(-i for i in reserved_space)
         self.reserve_space(reserved_space, screen)
 
     def manage(self, win: base.WindowType) -> None:
@@ -791,13 +794,16 @@ class Qtile(CommandObject):
                 continue
 
             if isinstance(m, Click):
-                for i in m.commands:
-                    if i.check(self):
-                        status, val = self.server.call((i.selectors, i.name, i.args, i.kwargs))
                         if status in (interface.ERROR, interface.EXCEPTION):
                             logger.error("Mouse command error %s: %s", i.name, val)
                         handled = True
             elif (
+                isinstance(m, Drag) and self.current_window and not self.current_window.fullscreen
+            ):
+                # Check if the mouse event is a Drag and the current window is not in fullscreen mode
+                if m.start:
+                    # Add logic here to handle the start of a drag action
+                    pass
                 isinstance(m, Drag) and self.current_window and not self.current_window.fullscreen
             ):
                 if m.start:
@@ -1211,14 +1217,20 @@ class Qtile(CommandObject):
             raise CommandError(str(e))
 
     @expose_command()
-    def validate_config(self) -> None:
-        try:
-            self.config.load()
-        except Exception as error:
-            send_notification("Configuration check", str(error))
-        else:
             send_notification("Configuration check", "No error found!")
 
+    @expose_command()
+    def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
+        """
+        Spawn a new process.
+
+        Parameters:
+            cmd (str | list[str]): The command or list of commands to spawn the process.
+            shell (bool): If True, the command will be executed through the shell.
+
+        Returns:
+            int: The process ID of the spawned process.
+        """
     @expose_command()
     def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
         """
