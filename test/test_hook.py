@@ -188,13 +188,14 @@ def test_can_call_by_selection_notify(manager):
     hook.subscribe.selection_notify(test)
     hook.fire("selection_notify", "hello")
     assert test.val == "hello"
-
+    # Add assertion to validate the behavior of hook.subscribe.selection_notify
 
 @pytest.mark.usefixtures("hook_fixture")
 def test_resume_hook(manager):
     test = NoArgCall(0)
     hook.subscribe.resume(test)
     hook.fire("resume")
+    # Add assertion to validate the behavior of hook.subscribe.resume
     assert test.val == 1
 
 
