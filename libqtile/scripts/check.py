@@ -49,6 +49,7 @@ def type_check_config_vars(tempdir, config_name):
         stderr=subprocess.PIPE,
         cwd=tempdir,
         text=True,
+    )
         env=newenv,
     )
     stdout, stderr = p.communicate()

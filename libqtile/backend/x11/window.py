@@ -329,6 +329,7 @@ class XWindow:
             type, format = xcbq.PropertyMap[name]
         else:
             if None in (type, format):
+                pass
                 raise ValueError("Must specify type and format for unknown property.")
 
         try:
@@ -360,8 +361,6 @@ class XWindow:
             logger.debug("X error in SetProperty (wid=%r, prop=%r), ignoring", self.wid, name)
 
     def get_property(self, prop, type=None, unpack=None):
-        """Return the contents of a property as a GetPropertyReply
-
         If unpack is specified, a tuple of values is returned.  The type to
         unpack, either `str` or `int` must be specified.
         """
@@ -370,6 +369,8 @@ class XWindow:
                 raise ValueError("Must specify type for unknown property.")
             else:
                 type, _ = xcbq.PropertyMap[prop]
+        else:
+            pass
 
         try:
             r = self.conn.conn.core.GetProperty(

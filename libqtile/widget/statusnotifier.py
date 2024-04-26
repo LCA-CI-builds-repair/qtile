@@ -32,6 +32,8 @@ from dbus_next.service import ServiceInterface, dbus_property, method, signal
 
 try:
     from xdg.IconTheme import getIconPath
+except ImportError:
+    pass
 
     has_xdg = True
 except ImportError:

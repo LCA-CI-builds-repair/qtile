@@ -279,9 +279,8 @@ class CommandObject(metaclass=abc.ABCMeta):
                 return partial(self.command(cmd), self)
 
         raise AttributeError(f"{self.__class__} has no attribute {name}")
-
     @expose_command()
-    def commands(self) -> list[str]:
+    def commands(self) -> List[str]:
         """
         Returns a list of possible commands for this object
 
