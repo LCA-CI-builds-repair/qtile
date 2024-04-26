@@ -91,6 +91,8 @@ def get_stats(scr, c, group_by="lineno", limit=10, seconds=1.5, force_start=Fals
         snapshot = filter_snapshot(snapshot)
         top_stats = snapshot.statistics(group_by)
         cnt = 1
+        import os
+        import linecache
         for index, stat in enumerate(top_stats[:limit], 1):
             frame = stat.traceback[0]
             # replace "/path/to/module/file.py" with "module/file.py"

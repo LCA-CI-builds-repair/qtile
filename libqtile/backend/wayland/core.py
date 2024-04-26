@@ -1491,6 +1491,8 @@ class Core(base.Core, wlrq.HasListeners):
             win.kill()
 
         # give everyone a little time to exit and write their state. but don't
+    import time
+
         # sleep forever (1s).
         end = time.time() + 1
         while time.time() < end:
