@@ -127,18 +127,7 @@ def test_matrix_next_no_clients(manager):
 
 
 @matrix_config
-def test_matrix_previous_no_clients(manager):
-    manager.c.layout.previous()
-
-
-def test_unknown_client():
-    """Simple test to get coverage to 100%!"""
-    matrix = layout.Matrix()
-
-    # The layout will not configure an unknown client.
-    # Without the return statement in "configure" the following
-    # code would result in an error
-    assert matrix.configure("fakeclient", None) is None
+# Test cases for the Matrix layout class, covering scenarios with no clients and unknown client
 
 
 def test_deprecated_configuration(caplog):

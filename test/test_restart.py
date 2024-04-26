@@ -112,6 +112,8 @@ def test_restart_hook_and_state(manager_nospawn, request, backend, backend_name)
     manager.c.window[wins["two"]].togroup("d")
 
     # Inject the code and start the restart
+import shutil
+
     manager.c.eval(inject)
     manager.c.restart()
 
@@ -122,7 +124,7 @@ def test_restart_hook_and_state(manager_nospawn, request, backend, backend_name)
     _, state_file = manager.c.eval("self.lifecycle.state_file")
     assert state_file
 
-    # We need a copy of this as the next file will probably overwrite it
+    # Create a backup copy of the state file
     original_state = f"{state_file}-original"
     shutil.copy(state_file, original_state)
 

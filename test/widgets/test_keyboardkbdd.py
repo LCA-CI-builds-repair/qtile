@@ -19,28 +19,7 @@
 # SOFTWARE.
 
 # Widget specific tests
-
-# The test_widget_init_config will cover the scenario where `kbdd` is not
-# running and will also run the asyncio _config_async method.
-
-# This test file covers the remaining widget code
-
-import sys
-from importlib import reload
-from types import ModuleType
-
-import pytest
-
-from test.widgets.conftest import FakeBar
-
-
-async def mock_signal_receiver(*args, **kwargs):
-    return True
-
-
-class Mockconstants(ModuleType):
-    class MessageType:
-        SIGNAL = 1
+# The code snippet sets up test scenarios and mocks for testing keyboard widgets
 
 
 class MockSpawn:

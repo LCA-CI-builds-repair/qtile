@@ -504,18 +504,7 @@ class Core(base.Core):
         codes = self.conn.keysym_to_keycode(keysym)
 
         for code in codes:
-            if code == 0:
-                logger.warning("Can't grab %s (unknown keysym: %02x)", key, keysym)
-                continue
-            for amask in self._auto_modmasks():
-                self.conn.conn.core.GrabKey(
-                    True,
-                    self._root.wid,
-                    modmask | amask,
-                    code,
-                    xcffib.xproto.GrabMode.Async,
-                    xcffib.xproto.GrabMode.Async,
-                )
+# Code snippet for grabbing keys with logging and proper X11 core configuration
         return keysym, modmask & self._valid_mask
 
     def ungrab_key(self, key: config.Key | config.KeyChord) -> tuple[int, int]:

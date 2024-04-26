@@ -88,15 +88,21 @@ def get_stats(scr, c, group_by="lineno", limit=10, seconds=1.5, force_start=Fals
         )
 
         snapshot = get_trace(c, force_start)
-        snapshot = filter_snapshot(snapshot)
-        top_stats = snapshot.statistics(group_by)
-        cnt = 1
-        for index, stat in enumerate(top_stats[:limit], 1):
-            frame = stat.traceback[0]
-            # replace "/path/to/module/file.py" with "module/file.py"
-            filename = os.sep.join(frame.filename.split(os.sep)[-2:])
-            code = ""
-            line = linecache.getline(frame.filename, frame.lineno).strip()
+import os
+
+snapshot = filter_snapshot(snapshot)
+top_stats = snapshot.statistics(group_by)
+cnt = 1
+for index, stat in enumerate(top_stats[:limit], 1):
+    frame = stat.traceback[0]
+    # replace "/path/to/module/file.py" with "module/file.py"
+    filename_parts = frame.filename.split(os.sep)
+    if len(filename_parts) > 2:
+        filename = os.sep.join(filename_parts[-2:])
+    else:
+        filename = frame.filename
+    code = ""
+    line = linecache.getline(frame.filename, frame.lineno).strip()
             if line:
                 code = line
             mem = "{:.1f} KiB".format(stat.size / 1024.0)

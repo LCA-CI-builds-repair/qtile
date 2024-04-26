@@ -166,41 +166,47 @@ if has_dbus:
                     self.bus = None
 
             return self._service
+import logging
 
-        async def register(self, callback, capabilities=None, on_close=None):
-            service = await self.service()
-            if not service:
-                logger.warning(
-                    "Registering %s without any dbus connection existing",
-                    callback.__name__,
-                )
-            self.callbacks.append(callback)
-            if capabilities:
-                self._service.register_capabilities(capabilities)
-            if on_close:
+async def register(self, callback, capabilities=None, on_close=None):
+    service = await self.service()
+    if not service:
+        logger.warning(
+            "Registering %s without any dbus connection existing",
+            callback.__name__,
+        )
+    self.callbacks.append(callback)
+    if capabilities:
+        self._service.register_capabilities(capabilities)
+    if on_close:
+        # Add implementation for the on_close parameter if needed
                 self.close_callbacks.append(on_close)
 
         def unregister(self, callback, on_close=None):
-            try:
-                self.callbacks.remove(callback)
+import logging
+
             except ValueError:
-                logger.error("Unable to remove notify callback. Unknown callback.")
+                logger.error("Failed to remove notify callback. The callback is unknown.")
 
             if on_close:
                 try:
                     self.close_callbacks.remove(on_close)
                 except ValueError:
-                    logger.error("Unable to remove notify on_close callback. Unknown callback.")
+                    logger.error("Failed to remove notify on_close callback. The callback is unknown.")
 
         def add(self, notif):
-            self.notifications.append(notif)
-            notif.id = len(self.notifications)
-            for callback in self.callbacks:
-                try:
+
+        def add(self, notif):
+import logging
+
                     callback(notif)
-                except Exception:
-                    logger.exception("Exception in notifier callback")
+                except Exception as e:
+                    logger.exception("Exception in notifier callback: %s", e)
             return len(self.notifications)
+
+        def show(self, *args, **kwargs):
+            notif = Notification(*args, **kwargs)
+            return (notif, self.add(notif))
 
         def show(self, *args, **kwargs):
             notif = Notification(*args, **kwargs)

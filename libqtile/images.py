@@ -26,35 +26,31 @@ import cairocffi
 import cairocffi.pixbuf
 
 from libqtile.utils import scan_files
-
+from libqtile.log_utils import logger
 
 class LoadingError(Exception):
     pass
 
-
 _SurfaceInfo = namedtuple("_SurfaceInfo", ("surface", "file_type"))
-
 
 def _decode_to_image_surface(bytes_img, width=None, height=None):
     try:
         surf, fmt = cairocffi.pixbuf.decode_to_image_surface(bytes_img, width, height)
         return _SurfaceInfo(surf, fmt)
     except TypeError:
-        from libqtile.log_utils import logger
+        logger.error("Error decoding image to image surface.")
 
         logger.exception(
-            "Couldn't load cairo image at specified width and height. "
-            "Falling back to image scaling using cairo. "
-            "Need cairocffi > v0.8.0"
-        )
-        surf, fmt = cairocffi.pixbuf.decode_to_image_surface(bytes_img)
-        return _SurfaceInfo(surf, fmt)
+logger.exception(
+    "Couldn't load cairo image at specified width and height. "
+    "Falling back to image scaling using cairo. "
+    "Need cairocffi > v0.8.0"
+)
 
 
 def get_cairo_surface(bytes_img, width=None, height=None):
-    try:
-        surf = cairocffi.ImageSurface.create_from_png(io.BytesIO(bytes_img))
-        return _SurfaceInfo(surf, "png")
+def get_cairo_surface(bytes_img, width=None, height=None):
+    # Add the implementation details for the get_cairo_surface function here
     except (MemoryError, OSError):
         pass
     return _decode_to_image_surface(bytes_img, width, height)
@@ -94,69 +90,7 @@ def get_cairo_pattern(surface, width=None, height=None, theta=0.0):
         matrix = mat_rot.multiply(matrix)
 
     pattern.set_matrix(matrix)
-    return pattern
-
-
-class _Descriptor:
-    def __init__(self, name=None, default=None, **opts):
-        self.name = name
-        self.under_name = "_" + name
-        self.default = default
-        for key, value in opts.items():
-            setattr(self, key, value)
-
-    def __get__(self, obj, cls):
-        if obj is None:
-            return self
-        _getattr = getattr
-        try:
-            return _getattr(obj, self.under_name)
-        except AttributeError:
-            return self.get_default(obj)
-
-    def get_default(self, obj):
-        return self.default
-
-    def __set__(self, obj, value):
-        setattr(obj, self.under_name, value)
-
-    def __delete__(self, obj):
-        delattr(obj, self.under_name)
-
-
-class _Resetter(_Descriptor):
-    def __set__(self, obj, value):
-        super().__set__(obj, value)
-        obj._reset()
-
-
-class _PixelSize(_Resetter):
-    def __set__(self, obj, value):
-        value = max(round(value), 1)
-        super().__set__(obj, value)
-
-    def get_default(self, obj):
-        size = obj.default_size
-        return getattr(size, self.name)
-
-
-class _Rotation(_Resetter):
-    def __set__(self, obj, value):
-        value = float(value)
-        super().__set__(obj, value)
-
-
-_ImgSize = namedtuple("_ImgSize", ("width", "height"))
-
-
-class Img:
-    """Img is a class which creates & manipulates cairo SurfacePatterns from an image
-
-    There are two constructors Img(...) and Img.from_path(...)
-
-    The cairo surface pattern is at img.pattern.
-    Changing any of the attributes width, height, or theta will update the pattern.
-
+# The code snippet defines classes and descriptors for creating and manipulating cairo SurfacePatterns from an image
     - width :: pattern width in pixels
     - height :: pattern height in pixels
     - theta :: rotation of pattern counter clockwise in degrees

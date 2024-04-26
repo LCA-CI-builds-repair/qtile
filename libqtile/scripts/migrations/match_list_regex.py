@@ -51,10 +51,7 @@ class MatchRegexTransformer(MigrationTransformer):
         name = original_node.keyword.value
         if not (all(isinstance(e.value, cst.SimpleString) for e in original_node.value.elements)):
             self.lint(
-                original_node,
-                f"The {name} keyword uses a list but the migrate script can not fix this as "
-                f"not all elements are strings.",
-            )
+# The code snippet raises a message about the limitation in the migration script when handling a list with non-string elements
             return updated_node
 
         joined_text = "|".join(e.value.value.strip("'\"") for e in original_node.value.elements)

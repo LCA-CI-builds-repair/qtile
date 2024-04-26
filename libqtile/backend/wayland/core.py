@@ -460,14 +460,16 @@ class Core(base.Core, wlrq.HasListeners):
         self.outputs.append(output)
 
         # This is run during tests, when we want to fix the output's geometry
-        if wlr_output.is_headless and "PYTEST_CURRENT_TEST" in os.environ:
-            if len(self.outputs) == 1:
-                # First test output
-                wlr_output.set_custom_mode(800, 600, 0)
-            else:
-                # Second test output
-                wlr_output.set_custom_mode(640, 480, 0)
-            wlr_output.commit()
+import os
+
+if wlr_output.is_headless and "PYTEST_CURRENT_TEST" in os.environ:
+    if len(self.outputs) == 1:
+        # First test output
+        wlr_output.set_custom_mode(800, 600, 0)
+    else:
+        # Second test output
+        wlr_output.set_custom_mode(640, 480, 0)
+    wlr_output.commit()
 
         # Let the output layout place it
         self.output_layout.add_auto(wlr_output)
@@ -1491,16 +1493,24 @@ class Core(base.Core, wlrq.HasListeners):
             win.kill()
 
         # give everyone a little time to exit and write their state. but don't
-        # sleep forever (1s).
-        end = time.time() + 1
-        while time.time() < end:
-            self._poll()
-            if not self.qtile.windows_map:
-                break
+import time
+from typing import Any
+
+class Core:
+    def _poll(self):
+        # Implement the logic to update the state of self.qtile.windows_map
+
+    while time.time() < end:
+        self._poll()
+        if not self.qtile.windows_map:
+            break
 
     @property
     def painter(self) -> Any:
         return wlrq.Painter(self)
+
+    def remove_output(self, output: Output) -> None:
+        # Implement proper error handling and resource cleanup if needed
 
     def remove_output(self, output: Output) -> None:
         self.outputs.remove(output)

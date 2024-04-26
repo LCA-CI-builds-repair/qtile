@@ -40,15 +40,22 @@ pytestmark = pytest.mark.skipif(not is_cpython() or not have_mypy(), reason="nee
 
 
 def run_qtile_check(config):
-    # make sure we have mypy so we can type check the config
-    if shutil.which("mypy") is None:
-        raise Exception("missing mypy in test environment")
-    cmd = os.path.join(os.path.dirname(__file__), "..", "bin", "qtile")
-    argv = [cmd, "check", "-c", config]
-    try:
-        newenv = os.environ.copy()
-        old_pp = newenv.get("PYTHONPATH", "")
-        newenv["PYTHONPATH"] = os.path.join(os.path.dirname(__file__), "..") + ":" + old_pp
+import os
+import shutil
+
+# Ensure mypy is available for type checking the config
+if shutil.which("mypy") is None:
+    raise Exception("Missing 'mypy' in the test environment")
+
+cmd = os.path.join(os.path.dirname(__file__), "..", "bin", "qtile")
+argv = [cmd, "check", "-c", config]
+
+try:
+    newenv = os.environ.copy()
+    old_pp = newenv.get("PYTHONPATH", "")
+    newenv["PYTHONPATH"] = os.path.join(os.path.dirname(__file__), "..") + ":" + old_pp
+except Exception as e:
+    raise Exception("Failed to set PYTHONPATH: {}".format(e))
         subprocess.check_call(argv, env=newenv)
     except subprocess.CalledProcessError:
         return False

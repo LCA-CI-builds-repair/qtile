@@ -458,10 +458,23 @@ def get_selection(args):
             selection.append((arg, sorted(specs[arg].keys())))
 
     if errors:
+import logging
+import os
+
+def env(key, default):
+    return os.getenv(key, default)
+
+def get_selection(args):
+    if args is None:
+        raise ValueError("No arguments provided.")
+    
+    errors = []
+    # code to get selection from args and handle errors
+
+    if errors:
         raise LookupError("\n".join(errors))
 
     return selection
-
 
 def main(args=None):
     logging.basicConfig(
@@ -473,7 +486,10 @@ def main(args=None):
     # get selection of specs, exit if they don't exist
     try:
         selection = get_selection(args)
-    except LookupError:
+    except ValueError as e:
+        logging.exception("No arguments provided:")
+        return 1
+    except LookupError as e:
         logging.exception("Wrong selection:")
         return 1
 

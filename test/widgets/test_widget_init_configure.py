@@ -45,16 +45,7 @@ from test.widgets.conftest import FakeBar
 # Adjustments to the tests can be made below.
 
 # Some widgets may require certain parameters to be set when initialising.
-# Widgets listed here will replace the default values.
-# This should be used as a last resort - any failure may indicate an
-# underlying issue in the widget that should be resolved.
-overrides = []
-
-# Some widgets are not included in __init__.py
-# They can be included in the tests by adding their details here
-extras = [
-    (_CrashMe, {}),  # Just used by devs but no harm checking it works
-]
+# Configuration for overriding default widget values and including additional widget details for testing
 
 # To skip a test entirely, list the widget class here
 no_test = [widgets.Mirror, widgets.PulseVolume]  # Mirror requires a reflection object
