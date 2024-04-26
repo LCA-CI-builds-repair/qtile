@@ -504,32 +504,35 @@ class Core(base.Core):
         codes = self.conn.keysym_to_keycode(keysym)
 
         for code in codes:
-            if code == 0:
-                logger.warning("Can't grab %s (unknown keysym: %02x)", key, keysym)
-                continue
-            for amask in self._auto_modmasks():
-                self.conn.conn.core.GrabKey(
-                    True,
-                    self._root.wid,
-                    modmask | amask,
-                    code,
-                    xcffib.xproto.GrabMode.Async,
-                    xcffib.xproto.GrabMode.Async,
-                )
-        return keysym, modmask & self._valid_mask
+# Add necessary imports here
 
+if code == 0:
+    logger.warning("Can't grab %s (unknown keysym: %02x)", key, keysym)
+    continue
+for amask in self._auto_modmasks():
+    self.conn.conn.core.GrabKey(
+        True,
+        self._root.wid,
+        modmask | amask,
+        code,
+        xcffib.xproto.GrabMode.Async,
+        xcffib.xproto.GrabMode.Async,
+    )
+return keysym, modmask & self._valid_mask
     def ungrab_key(self, key: config.Key | config.KeyChord) -> tuple[int, int]:
-        """Ungrab the key corresponding to the given keysym and modifier mask"""
-        keysym, modmask = self.lookup_key(key)
-        codes = self.conn.keysym_to_keycode(keysym)
+# Add necessary imports here
 
-        for code in codes:
-            for amask in self._auto_modmasks():
-                self.conn.conn.core.UngrabKey(code, self._root.wid, modmask | amask)
+keysym, modmask = self.lookup_key(key)
+codes = self.conn.keysym_to_keycode(keysym)
 
-        return keysym, modmask & self._valid_mask
+for code in codes:
+    for amask in self._auto_modmasks():
+        self.conn.conn.core.UngrabKey(code, self._root.wid, modmask | amask)
 
-    def ungrab_keys(self) -> None:
+return keysym, modmask & self._valid_mask
+
+def ungrab_keys(self) -> None:
+    """Ungrab all of the key events"""
         """Ungrab all of the key events"""
         self.conn.conn.core.UngrabKey(
             xcffib.xproto.Atom.Any, self._root.wid, xcffib.xproto.ModMask.Any

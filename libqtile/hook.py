@@ -827,25 +827,27 @@ hooks: list[Hook] = [
                 send_notification("qtile", "Screen change detected.")
 
         """,
-    ),
-    Hook(
-        "screens_reconfigured",
-        """
-        Called once ``qtile.reconfigure_screens`` has completed (e.g. if
-        ``reconfigure_screens`` is set to ``True`` in your config).
+# Add necessary imports here
 
-        **Arguments**
+),
+Hook(
+    "screens_reconfigured",
+    """
+    Called once ``qtile.reconfigure_screens`` has completed (e.g. if
+    ``reconfigure_screens`` is set to ``True`` in your config).
 
-        None
+    **Arguments**
 
-        Example:
+    None
 
-        .. code:: python
+    Example:
 
-            from libqtile import hook
-            from libqtile.utils import send_notification
+    .. code:: python
 
-            @hook.subscribe.screen_change
+        from libqtile import hook
+        from libqtile.utils import send_notification
+
+        @hook.subscribe.screen_change
             def screen_change(event):
                 send_notification("qtile", "Screens have been reconfigured.")
 

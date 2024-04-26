@@ -19,6 +19,7 @@
 import pytest
 
 from libqtile.scripts.migrations import MIGRATIONS, load_migrations
+# Add necessary imports here
 
 migration_tests = []
 

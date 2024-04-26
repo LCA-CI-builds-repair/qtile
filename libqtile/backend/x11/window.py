@@ -1163,15 +1163,18 @@ class _Window:
                         higher.append(group_bar.window.wid)
 
                 # Sort the list to match the server's stacking order
-                lower.sort(key=lambda wid: stack.index(wid))
-                higher.sort(key=lambda wid: stack.index(wid))
+# Add necessary imports here
 
-            for wid in [w for w in lower if stack.index(w) > index]:
-                self.qtile.windows_map[wid].window.configure(
-                    stackmode=xcffib.xproto.StackMode.Below, sibling=same[0]
-                )
+lower.sort(key=lambda wid: stack.index(wid))
+higher.sort(key=lambda wid: stack.index(wid))
 
-            # We reverse higher as each window will be placed above the last item in the current layer
+for wid in [w for w in lower if stack.index(w) > index]:
+    if wid in self.qtile.windows_map:
+        self.qtile.windows_map[wid].window.configure(
+            stackmode=xcffib.xproto.StackMode.Below, sibling=same[0]
+        )
+
+# We reverse higher as each window will be placed above the last item in the current layer
             # this means the last item we stack will be just above the current layer.
             for wid in [w for w in higher[::-1] if stack.index(w) < index]:
                 self.qtile.windows_map[wid].window.configure(

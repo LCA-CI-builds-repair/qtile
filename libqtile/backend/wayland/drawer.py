@@ -33,17 +33,19 @@ if TYPE_CHECKING:
 
 
 class Drawer(drawer.Drawer):
-    """
-    A helper class for drawing and text layout.
+# Add necessary imports here
 
-    1. We stage drawing operations locally in memory using a cairo RecordingSurface.
-    2. Then apply these operations to the windows's underlying ImageSurface.
-    """
+"""
+A helper class for drawing and text layout.
 
-    def __init__(self, qtile: Qtile, win: Internal, width: int, height: int):
-        drawer.Drawer.__init__(self, qtile, win, width, height)
+1. We stage drawing operations locally in memory using a cairo RecordingSurface.
+2. Then apply these operations to the windows's underlying ImageSurface.
+"""
 
-    def _draw(
+def __init__(self, qtile: Qtile, win: Internal, width: int, height: int):
+    drawer.Drawer.__init__(self, qtile, win, width, height)
+
+def _draw(
         self,
         offsetx: int = 0,
         offsety: int = 0,

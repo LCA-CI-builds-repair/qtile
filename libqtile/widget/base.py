@@ -360,12 +360,14 @@ class _Widget(CommandObject, configurable.Configurable):
         return subprocess.check_output(command, **kwargs, encoding="utf-8")
 
     def _remove_dead_timers(self):
-        """Remove completed and cancelled timers from the list."""
+# Add necessary imports here
 
-        def is_ready(timer):
-            return timer in self.qtile._eventloop._ready
+"""Remove completed and cancelled timers from the list."""
 
-        self._futures = [
+def is_ready(timer):
+    return timer in self.qtile._eventloop._ready
+
+self._futures = [
             timer
             for timer in self._futures
             # Filter out certain handles...

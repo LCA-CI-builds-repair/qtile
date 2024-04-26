@@ -135,9 +135,11 @@ def test_keyboard_kbdd_colours(fake_qtile, patched_widget, fake_window):
     assert kbd.layout.colour == "#00ff00"
 
     # Colours list is shorter than length of layouts
-    kbd.colours = ["#ff00ff"]
+# Add necessary imports here
 
-    # Should pick second item in colours list but it doesn't exit
-    # so widget looks for previous item
-    kbd._set_colour(1)
-    assert kbd.layout.colour == "#ff00ff"
+kbd.colours = ["#ff00ff"]
+
+# Should pick the second item in colours list but it doesn't exist
+# so the widget looks for the previous item
+kbd._set_colour(1)
+assert kbd.layout.colour == "#ff00ff"

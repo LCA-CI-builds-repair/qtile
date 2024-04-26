@@ -81,18 +81,18 @@ def target():
     # This prevents pytest deleting the files itself
 
     # Remove old screenshots
-    if os.path.isdir(docs_folder):
-        shutil.rmtree(docs_folder)
+# Add necessary imports here
 
-    # Copy to the docs folder
-    shutil.copytree(folder, docs_folder)
-    with open(log, "w") as f:
-        json.dump(key, f)
+if os.path.isdir(docs_folder):
+    shutil.rmtree(docs_folder)
 
-    # Clear up the tests folder
-    shutil.rmtree(folder)
+# Copy to the docs folder
+shutil.copytree(folder, docs_folder)
+with open(log, "w") as f:
+    json.dump(key, f)
 
-
+# Clear up the tests folder
+shutil.rmtree(folder)
 @pytest.fixture
 def screenshot_manager(widget, request, manager_nospawn, minimal_conf_noscreen, target):
     """

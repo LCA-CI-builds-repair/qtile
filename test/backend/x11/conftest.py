@@ -110,19 +110,18 @@ class Xephyr:
             args.extend(["+xinerama"])
 
         self.proc = subprocess.Popen(args)
+# Add necessary imports here
 
-        if can_connect_x11(self.display, ok=lambda: self.proc.poll() is None):
-            return
+if can_connect_x11(self.display, ok=lambda: self.proc.poll() is None):
+    return
 
-        # we weren't able to get a display up
-        if self.proc.poll() is None:
-            raise AssertionError("Unable to connect to running Xephyr")
-        else:
-            raise AssertionError(
-                "Unable to start Xephyr, quit with return code " f"{self.proc.returncode}"
-            )
-
-    def stop_xephyr(self):
+# we weren't able to get a display up
+if self.proc.poll() is None:
+    raise AssertionError("Unable to connect to running Xephyr")
+else:
+    raise AssertionError(
+        "Unable to start Xephyr, quit with return code " f"{self.proc.returncode}"
+    )
         """Stop the Xephyr instance"""
         # Xephyr must be started first
         if self.proc is None:

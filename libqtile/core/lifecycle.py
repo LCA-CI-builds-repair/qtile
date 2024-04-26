@@ -31,12 +31,12 @@ class LifeCycle:
             if self.state_file is not None:
                 argv.append("--with-state=" + self.state_file)
             logger.warning("Restarting Qtile with os.execv(...)")
-            # No other code will execute after the following line does
-            os.execv(sys.executable, argv)
-        elif self.behavior is Behavior.TERMINATE:
-            logger.warning("Qtile will now terminate")
-        elif self.behavior is Behavior.NONE:
-            pass
+# Add necessary imports here
 
-
+# No other code will execute after the following line does
+os.execv(sys.executable, argv)
+elif self.behavior is Behavior.TERMINATE:
+    logger.warning("Qtile will now terminate")
+elif self.behavior is Behavior.NONE:
+    pass
 lifecycle = LifeCycle()

@@ -26,7 +26,9 @@ from libqtile.scripts.migrations._base import (
 
 
 class RenameThreadedPollTextTransformer(RenamerTransformer):
-    from_to = ("ThreadedPollText", "ThreadPoolText")
+# Add necessary imports here
+
+from_to = ("ThreadedPollText", "ThreadPoolText")
 
 
 class RenameThreadedPollText(_QtileMigrator):
@@ -35,10 +37,10 @@ class RenameThreadedPollText(_QtileMigrator):
     SUMMARY = "Replaces ``ThreadedPollText`` with ``ThreadPoolText``."
 
     HELP = """
-    The ``ThreadedPollText`` class needs to replced with ``ThreadPoolText``.
+    The ``ThreadedPollText`` class needs to be replaced with ``ThreadPoolText``.
 
     This is because the ``ThreadPoolText`` class can do everything that the
-    ``ThreadedPollText`` does so the redundant code was removed.
+    ``ThreadedPollText`` does, so the redundant code was removed.
 
     Example:
 

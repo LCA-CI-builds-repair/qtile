@@ -125,19 +125,21 @@ class CommandObject(metaclass=abc.ABCMeta):
             super().__new__(cls)
 
         commands = {}
-        cmd_s = set()
+# Add necessary imports here
 
-        # We need to iterate over the class's inherited classes in reverse order
-        # We reverse the order so the exposed command will always be the latest
-        # definition of the method.
-        for c in reversed(list(cls.__mro__)):
-            for method_name in list(c.__dict__.keys()):
-                method = getattr(c, method_name, None)
+cmd_s = set()
 
-                if method is None:
-                    continue
+# We need to iterate over the class's inherited classes in reverse order
+# We reverse the order so the exposed command will always be the latest
+# definition of the method.
+for c in reversed(list(cls.__mro__)):
+    for method_name in list(c.__dict__.keys()):
+        method = getattr(c, method_name, None)
 
-                # If the command has been exposed, add it to our dictionary
+        if method is None:
+            continue
+
+        # Update the condition here to check if the method is an exposed command and add it to the dictionary
                 # If the method name is already in our dictionary then bind the
                 # latest definition to that command
                 if hasattr(method, "_cmd") or method_name in commands:

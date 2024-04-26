@@ -30,6 +30,7 @@ migration_tests = []
 migration_ids = []
 
 load_migrations()
+# Add necessary imports here
 
 for m in MIGRATIONS:
     tests = []
@@ -44,8 +45,6 @@ for m in MIGRATIONS:
         migration_ids.append(f"{m.ID}-no-check-test")
 
     migration_tests.extend(tests)
-
-
 @pytest.mark.parametrize("migration_tester", migration_tests, indirect=True, ids=migration_ids)
 def test_check_all_migrations(migration_tester):
     migration_tester.assert_check()
