@@ -87,12 +87,15 @@ def type_check_config_vars(tempdir, config_name):
 
 
 def type_check_config_args(config_file):
-    try:
-        subprocess.check_call(["mypy", config_file])
-        print("Config file type checking succeeded!")
-    except subprocess.CalledProcessError as e:
-        print("Config file type checking failed: {}".format(e))
-        sys.exit(1)
+import subprocess
+import sys
+
+try:
+    subprocess.check_call(["mypy", config_file])
+    print("Config file type checking succeeded!")
+except subprocess.CalledProcessError as e:
+    print("Config file type checking failed: {}".format(e))
+    sys.exit(1)
 
 
 def check_deps() -> None:
