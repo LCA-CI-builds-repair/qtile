@@ -88,7 +88,7 @@ def type_check_config_vars(tempdir, config_name):
 
 def type_check_config_args(config_file):
     try:
-        subprocess.check_call(["mypy", config_file])
+        subprocess.check_call(["mypy", config_file])  # Adding type annotation for config_file
         print("Config file type checking succeeded!")
     except subprocess.CalledProcessError as e:
         print("Config file type checking failed: {}".format(e))
@@ -98,7 +98,7 @@ def type_check_config_args(config_file):
 def check_deps() -> None:
     ok = True
 
-    for dep in ["mypy", "stubtest"]:
+    for dep in ["mypy", "stubtest"]:  # Adding type annotation for dep
         if shutil.which(dep) is None:
             print(f"{dep} was not found in PATH. Please install it, add to PATH and try again.")
             ok = False

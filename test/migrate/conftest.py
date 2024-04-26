@@ -70,7 +70,6 @@ class MigrationTester:
             assert False
 
         assert any(self.test_id in line for line in output.stdout.decode().splitlines())
-
     def assert_check(self):
         if not self.test.source:
             assert False, f"{self.test_id} has no Check test."
@@ -78,8 +77,6 @@ class MigrationTester:
         self.assert_migrate()
 
         assert run_qtile_check(self.test.source_path)
-
-
 @pytest.fixture
 def migration_tester(request):
     test_id, test = getattr(request, "param", (None, None))

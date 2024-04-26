@@ -41,8 +41,6 @@ def test_ipc_json_throws_error_on_unsupported_field():
         ),
     ):
         _IPC.pack({"foo": NonSerializableType()}, is_json=True)
-
-
 def test_ipc_marshall_error_on_unsupported_field():
     class NonSerializableType:
         ...

@@ -279,7 +279,6 @@ class CommandObject(metaclass=abc.ABCMeta):
                 return partial(self.command(cmd), self)
 
         raise AttributeError(f"{self.__class__} has no attribute {name}")
-
     @expose_command()
     def commands(self) -> list[str]:
         """
@@ -290,7 +289,7 @@ class CommandObject(metaclass=abc.ABCMeta):
         return sorted([cmd for cmd in self._commands])
 
     @expose_command()
-    def doc(self, name) -> str:
+    def doc(self, name: str) -> str:  # Adding type annotation for name parameter
         """Returns the documentation for a specified command name
 
         Used by __qsh__ to provide online help.

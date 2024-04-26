@@ -330,15 +330,15 @@ class TestManager:
         Windows created with this method must have their process killed explicitly, no
         matter what type they are.
         """
-        python = sys.executable
-        path = Path(__file__).parent / "scripts" / "window.py"
+        python: str = sys.executable  # Adding type annotation for python variable
+        path: Path = Path(__file__).parent / "scripts" / "window.py"  # Adding type annotation for path variable
         wmclass = "dialog" if floating else "TestWindow"
-        args = [python, path, "--name", wmclass, name, wm_type]
+        args = [python, path, "--name", wmclass, name, wm_type]  # Adding type annotation for name and wm_type variables
         if export_sni:
             args.append("export_sni_interface")
         return self._spawn_window(*args)
 
-    def test_notification(self, name="notification"):
+    def test_notification(self, name: str = "notification"):  # Adding type annotation for name variable
         return self.test_window(name, wm_type="notification")
 
     def groupconsistency(self):

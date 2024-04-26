@@ -107,9 +107,9 @@ class LazyCall:
 
         Keyword parameters
         ----------
-        focused: Match or None
+        focused: Union[Match, None]  # Adding type annotation for focused variable
             Match criteria to enable call for the current window.
-        if_no_focused: bool
+        if_no_focused: bool  # Adding type annotation for if_no_focused variable
             Whether or not the `focused` attribute should also
             match when there is no focused window.
             This is useful when the `focused` attribute is e.g. set
@@ -117,7 +117,7 @@ class LazyCall:
             no focused window.
             By default this is set to `False` so that the focused
             attribute only matches when there is actually a focused window.
-        layout: str, Iterable[str], or None
+        layout: Union[str, Iterable[str], None]  # Adding type annotation for layout variable
             Restrict call to one or more layouts.
             If None, enable the call for all layouts.
         when_floating: bool

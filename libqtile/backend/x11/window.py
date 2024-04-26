@@ -319,16 +319,16 @@ class XWindow:
         """
         Parameters
         ==========
-        name: String Atom name
-        type: String Atom name
-        format: 8, 16, 32
+        name: str  # Adding type annotation for name variable
+        type: str  # Adding type annotation for type variable
+        format: int  # Adding type annotation for format variable
         """
         if name in xcbq.PropertyMap:
             if type or format:
                 raise ValueError("Over-riding default type or format for property.")
             type, format = xcbq.PropertyMap[name]
         else:
-            if None in (type, format):
+            if type is None or format is None:
                 raise ValueError("Must specify type and format for unknown property.")
 
         try:

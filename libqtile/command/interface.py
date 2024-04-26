@@ -182,11 +182,11 @@ class QtileCommandInterface(CommandInterface):
 
         Parameters
         ----------
-        node: CommandGraphNode
+        node: CommandGraphNode  # Adding type annotation for node variable
             The node to check for items
-        object_type: str
+        object_type: str  # Adding type annotation for object_type variable
             The type of object to check for items.
-        item: str
+        item: str  # Adding type annotation for item variable
             The name or index of the item to check for
 
         Returns

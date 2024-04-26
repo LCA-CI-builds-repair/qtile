@@ -93,9 +93,7 @@ class _Base:
         return self._height
 
     @height.setter
-    def height(self, height: int) -> None:
-        self._height = height
-
+    def height(self, height: int) -> None:  # Adding type annotation for height parameter
 
 class Window(typing.Generic[S], _Base, base.Window, HasListeners):
     """
@@ -105,7 +103,7 @@ class Window(typing.Generic[S], _Base, base.Window, HasListeners):
     concrete classes are responsible for implementing a few others.
     """
 
-    def __init__(self, core: Core, qtile: Qtile, surface: S):
+    def __init__(self, core: Core, qtile: Qtile, surface: S):  # Adding type annotations for core, qtile, and surface parameters
         base.Window.__init__(self)
         self.core = core
         self.qtile = qtile

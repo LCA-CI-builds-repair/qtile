@@ -1219,7 +1219,7 @@ class Qtile(CommandObject):
             send_notification("Configuration check", "No error found!")
 
     @expose_command()
-    def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
+    def spawn(self, cmd: Union[str, List[str]], shell: bool = False) -> int:  # Adding type annotations for cmd and shell
         """
         Spawn a new process.
 

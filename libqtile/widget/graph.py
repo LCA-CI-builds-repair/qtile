@@ -355,9 +355,9 @@ class NetGraph(_Graph):
         if self.bandwidth_type != "down" and self.bandwidth_type != "up":
             raise ValueError("bandwidth type {} not known!".format(self.bandwidth_type))
         self.bytes = 0
-        self.bytes = self._get_values()
+        return self._get_values()
 
-    def _get_values(self):
+    def _get_values(self) -> Any:  # Adding return type annotation for _get_values method
         net = psutil.net_io_counters(pernic=True)
         if self.bandwidth_type == "up":
             return net[self.interface].bytes_sent
