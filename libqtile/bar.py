@@ -348,9 +348,8 @@ class Bar(Gap, configurable.Configurable, CommandObject):
             )
             qtile.renamed_widgets.clear()
 
-        hook.subscribe.setgroup(self.set_layer)
-        hook.subscribe.startup_complete(self.set_layer)
-
+        hook.subscribe.setgroup(self, self.set_layer)
+        hook.subscribe.startup_complete(self, self.set_layer)
         self._remove_crashed_widgets(crashed_widgets)
         self.draw()
         self._resize(self._length, self.widgets)
