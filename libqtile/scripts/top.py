@@ -99,8 +99,14 @@ def get_stats(scr, c, group_by="lineno", limit=10, seconds=1.5, force_start=Fals
             line = linecache.getline(frame.filename, frame.lineno).strip()
             if line:
                 code = line
+                
+            # Calculate memory in KiB and format the output
             mem = "{:.1f} KiB".format(stat.size / 1024.0)
+            
+            # Combine filename and line number for display
             filename = "{}:{}".format(filename, frame.lineno)
+            
+            # Display index, filename, memory, and code on the screen with proper formatting
             scr.addstr(cnt + 1, 0, "{:<3} {:<40} {:<30}".format(index, filename, mem))
             scr.addstr(cnt + 2, 4, code, curses.color_pair(1))
             cnt += 2

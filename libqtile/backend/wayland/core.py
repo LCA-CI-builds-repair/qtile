@@ -1491,13 +1491,9 @@ class Core(base.Core, wlrq.HasListeners):
             win.kill()
 
         # give everyone a little time to exit and write their state. but don't
-        # sleep forever (1s).
-        end = time.time() + 1
-        while time.time() < end:
+        # Wait for a change in windows_map or until a specific condition is met.
+        while self.qtile.windows_map:
             self._poll()
-            if not self.qtile.windows_map:
-                break
-
     @property
     def painter(self) -> Any:
         return wlrq.Painter(self)

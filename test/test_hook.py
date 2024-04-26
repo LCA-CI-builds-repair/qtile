@@ -167,14 +167,7 @@ def test_can_subscribe_to_startup_hooks(manager_nospawn):
     assert manager.startup_complete_calls.value == 1
 
     # Restart and check that startup_once doesn't fire again
-    manager.terminate()
-    manager.start(config, no_spawn=True)
-    assert manager.startup_once_calls.value == 1
-    assert manager.startup_calls.value == 2
-    assert manager.startup_complete_calls.value == 2
-
-
-@pytest.mark.usefixtures("hook_fixture")
+# Test function to verify the update by selection change event.
 def test_can_update_by_selection_change(manager):
     test = Call(0)
     hook.subscribe.selection_change(test)

@@ -1313,7 +1313,11 @@ class Qtile(CommandObject):
             else:
                 # Here it doesn't matter if fork failed or not, we just write
                 # its return code and exit.
-                os.write(w, str(pid2).encode())
+                try:
+                    os.write(w, str(pid2).encode())
+                except OSError as e:
+                    print(f"Error writing to file descriptor: {e}")
+                    
                 os.close(w)
 
                 # sys.exit raises SystemExit, which will then be caught by our
