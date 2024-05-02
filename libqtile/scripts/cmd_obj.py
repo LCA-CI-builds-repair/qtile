@@ -126,7 +126,7 @@ def get_object(client: CommandClient, argv: list[str]) -> CommandClient:
     return client
 
 
-def run_function(client: CommandClient, funcname: str, args: list[str]) -> str:
+def run_function(client: CommandClient, funcname: str, args: List[str]) -> str:
     "Run command with specified args on given object."
     try:
         ret = client.call(funcname, *args)
