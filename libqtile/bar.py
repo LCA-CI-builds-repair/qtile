@@ -348,6 +348,8 @@ class Bar(Gap, configurable.Configurable, CommandObject):
             )
             qtile.renamed_widgets.clear()
 
+        from libqtile import hook
+        
         hook.subscribe.setgroup(self.set_layer)
         hook.subscribe.startup_complete(self.set_layer)
 
