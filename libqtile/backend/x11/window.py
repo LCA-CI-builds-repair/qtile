@@ -359,7 +359,7 @@ class XWindow:
         except xcffib.xproto.WindowError:
             logger.debug("X error in SetProperty (wid=%r, prop=%r), ignoring", self.wid, name)
 
-    def get_property(self, prop, type=None, unpack=None):
+    def get_property(self, prop: str, type: Optional[Type] = None, unpack: Optional[str] = None) -> Union[GetPropertyReply, Tuple[Union[str, int]]]:
         """Return the contents of a property as a GetPropertyReply
 
         If unpack is specified, a tuple of values is returned.  The type to
@@ -370,7 +370,6 @@ class XWindow:
                 raise ValueError("Must specify type for unknown property.")
             else:
                 type, _ = xcbq.PropertyMap[prop]
-
         try:
             r = self.conn.conn.core.GetProperty(
                 False,

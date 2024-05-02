@@ -250,8 +250,7 @@ class Qtile(CommandObject):
         except Exception as error:
             logger.exception("Preventing restart because of a configuration error:")
             send_notification("Configuration error", str(error.__context__))
-            return
-
+            return None
         hook.fire("restart")
         lifecycle.behavior = lifecycle.behavior.RESTART
         state_file = os.path.join(tempfile.gettempdir(), "qtile-state")
@@ -285,8 +284,7 @@ class Qtile(CommandObject):
         except Exception as error:
             logger.exception("Configuration error:")
             send_notification("Configuration error", str(error))
-            return
-
+            return None
         self._state = QtileState(self, restart=False)
         self._finalize_configurables()
         hook.clear()
@@ -1209,6 +1207,8 @@ class Qtile(CommandObject):
         except utils.QtileError as e:
             raise CommandError(str(e))
 
+            raise CommandError(str(e))
+
     @expose_command()
     def validate_config(self) -> None:
         try:
@@ -1219,10 +1219,8 @@ class Qtile(CommandObject):
             send_notification("Configuration check", "No error found!")
 
     @expose_command()
-    def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
+    def spawn(self, cmd: Union[str, List[str]], shell: bool = False) -> int:
         """
-        Spawn a new process.
-
         Parameters
         ==========
         cmd:

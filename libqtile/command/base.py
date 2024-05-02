@@ -314,7 +314,7 @@ class CommandObject(metaclass=abc.ABCMeta):
         return str(signature)
 
     @expose_command()
-    def eval(self, code: str) -> tuple[bool, str | None]:
+    def eval(self, code: str) -> Tuple[bool, Union[str, None]]:
         """Evaluates code in the same context as this function
 
         Return value is tuple `(success, result)`, success being a boolean and
