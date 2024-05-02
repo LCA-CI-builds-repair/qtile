@@ -171,6 +171,7 @@ class FontDescription:
 
     def get_size(self):
         return pango.pango_font_description_get_size(self._pointer)
+        return pango.pango_font_description_get_size(self._pointer)
 
 
 def parse_markup(value, accel_marker=0):

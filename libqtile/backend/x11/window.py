@@ -354,11 +354,10 @@ class XWindow:
                 self.conn.atoms[type],
                 format,  # Format - 8, 16, 32
                 len(value),
-                value,
+                value
             ).check()
         except xcffib.xproto.WindowError:
             logger.debug("X error in SetProperty (wid=%r, prop=%r), ignoring", self.wid, name)
-
     def get_property(self, prop, type=None, unpack=None):
         """Return the contents of a property as a GetPropertyReply
 
