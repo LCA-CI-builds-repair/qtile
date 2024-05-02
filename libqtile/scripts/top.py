@@ -93,11 +93,18 @@ def get_stats(scr, c, group_by="lineno", limit=10, seconds=1.5, force_start=Fals
         cnt = 1
         for index, stat in enumerate(top_stats[:limit], 1):
             frame = stat.traceback[0]
-            # replace "/path/to/module/file.py" with "module/file.py"
-            filename = os.sep.join(frame.filename.split(os.sep)[-2:])
-            code = ""
-            line = linecache.getline(frame.filename, frame.lineno).strip()
-            if line:
+            if frame.filename:  # Check if frame filename is not empty
+                # replace "/path/to/module/file.py" with "module/file.py"
+                filename = os.sep.join(frame.filename.split(os.sep)[-2:])
+                code = ""
+                line = linecache.getline(frame.filename, frame.lineno).strip()
+                if line:
+                    try:
+                        # Add error handling in case linecache.getline fails
+                        line = linecache.getline(frame.filename, frame.lineno).strip()
+                    except Exception as e:
+                        # Handle the exception appropriately
+                        print(f"Error occurred while retrieving line: {e}")
                 code = line
             mem = "{:.1f} KiB".format(stat.size / 1024.0)
             filename = "{}:{}".format(filename, frame.lineno)

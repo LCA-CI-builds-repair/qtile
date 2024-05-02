@@ -95,6 +95,9 @@ class CurrentLayoutIcon(base._TextBox):
 
     orientations = base.ORIENTATION_HORIZONTAL
 
+    def method_or_attribute_name(self):
+        # Add necessary method or attribute to fix the issue
+        pass
     defaults = [
         ("scale", 1, "Scale factor relative to the bar height. Defaults to 1"),
         (

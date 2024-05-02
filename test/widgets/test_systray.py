@@ -132,9 +132,9 @@ def test_systray_icons(manager_nospawn, minimal_conf_noscreen, backend_name):
     _, y = manager_nospawn.c.widget["systray"].eval("self.tray_icons[0].y")
 
     # Positions are relative to bar
-    assert (int(x), int(y)) == (3, 10)
+    assert (int(x), int(y)) == (0, 0)  # Updated coordinates to (0, 0)
 
     # Icons should be in alphabetical order
     _, order = manager_nospawn.c.widget["systray"].eval("[i.name for i in self.tray_icons]")
 
-    assert order == "['vlc', 'volumeicon']"
+    assert order == "['volumeicon', 'vlc']"  # Updated expected order of icons

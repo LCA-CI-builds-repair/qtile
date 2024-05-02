@@ -508,14 +508,23 @@ class Core(base.Core):
                 logger.warning("Can't grab %s (unknown keysym: %02x)", key, keysym)
                 continue
             for amask in self._auto_modmasks():
-                self.conn.conn.core.GrabKey(
-                    True,
-                    self._root.wid,
-                    modmask | amask,
-                    code,
-                    xcffib.xproto.GrabMode.Async,
-                    xcffib.xproto.GrabMode.Async,
-                )
+                try:
+                    self.conn.conn.core.GrabKey(
+                        True,
+                        self._root.wid,
+                        modmask | amask,
+                        code,
+                        xcffib.xproto.GrabMode.Async,
+                        xcffib.xproto.GrabMode.Async,
+                    )
+                except Exception as e:
+                    logger.error("Error occurred while GrabKey: %s", e)
+                    # Release the grabbed key if GrabKey operation encounters an error
+                    self.conn.conn.core.UngrabKey(
+                        code,
+                        self._root.wid,
+                        modmask | amask
+                    )
         return keysym, modmask & self._valid_mask
 
     def ungrab_key(self, key: config.Key | config.KeyChord) -> tuple[int, int]:

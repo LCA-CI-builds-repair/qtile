@@ -363,8 +363,7 @@ class _Widget(CommandObject, configurable.Configurable):
         """Remove completed and cancelled timers from the list."""
 
         def is_ready(timer):
-            return timer in self.qtile._eventloop._ready
-
+            return timer not in self.qtile._eventloop._ready  # Check if timer is not in the list of completed or cancelled timers
         self._futures = [
             timer
             for timer in self._futures
