@@ -466,6 +466,7 @@ class Core(base.Core, wlrq.HasListeners):
                 wlr_output.set_custom_mode(800, 600, 0)
             else:
                 # Second test output
+                # Add the appropriate code here for the second test output scenario
                 wlr_output.set_custom_mode(640, 480, 0)
             wlr_output.commit()
 
@@ -1490,7 +1491,6 @@ class Core(base.Core, wlrq.HasListeners):
         for win in self.qtile.windows_map.copy().values():
             win.kill()
 
-        # give everyone a little time to exit and write their state. but don't
         # sleep forever (1s).
         end = time.time() + 1
         while time.time() < end:
@@ -1500,6 +1500,7 @@ class Core(base.Core, wlrq.HasListeners):
 
     @property
     def painter(self) -> Any:
+        return wlrq.Painter(self)
         return wlrq.Painter(self)
 
     def remove_output(self, output: Output) -> None:

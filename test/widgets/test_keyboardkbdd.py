@@ -40,6 +40,7 @@ async def mock_signal_receiver(*args, **kwargs):
 
 class Mockconstants(ModuleType):
     class MessageType:
+        pass
         SIGNAL = 1
 
 

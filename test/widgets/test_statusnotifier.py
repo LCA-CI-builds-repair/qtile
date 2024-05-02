@@ -147,6 +147,7 @@ def test_statusnotifier_left_click(manager_nospawn, sni_config):
 
         # Left click again will restore window
         manager_nospawn.c.bar["top"].fake_button_press(0, "top", 10, 0, 1)
+    try:
         check_fullscreen(windows, False)
 
         manager_nospawn.kill_window(win)
