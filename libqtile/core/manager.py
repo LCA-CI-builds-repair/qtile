@@ -674,7 +674,7 @@ class Qtile(CommandObject):
         Free up space that has previously been reserved at the edge(s) of a screen.
         """
         # mypy can't work out that the new tuple is also length 4 (see mypy #7509)
-        reserved_space = tuple(-i for i in reserved_space)  # type: ignore
+        updated_reserved_space = tuple(-i for i in reserved_space)  # type: ignore
         self.reserve_space(reserved_space, screen)
 
     def manage(self, win: base.WindowType) -> None:

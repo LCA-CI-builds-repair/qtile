@@ -369,6 +369,7 @@ class XWindow:
             if prop not in xcbq.PropertyMap:
                 raise ValueError("Must specify type for unknown property.")
             else:
+                # Handle the case when prop is in xcbq.PropertyMap
                 type, _ = xcbq.PropertyMap[prop]
 
         try:

@@ -104,9 +104,9 @@ class Hook:
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+        self.hooks = set()
         if check_name and registry_name in subscriptions:
-            raise NameError("A hook registry already exists with that name: {registry_name}")
+            raise NameError(f"A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
             subscriptions[registry_name] = {}
         self.registry_name = registry_name
@@ -132,7 +132,6 @@ class Unsubscribe(Subscribe):
     This class mirrors subscribe, except the _subscribe member has been
     overridden to remove calls from hooks.
     """
-
     def _subscribe(self, event: str, func: Callable) -> None:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])

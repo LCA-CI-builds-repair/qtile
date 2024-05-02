@@ -86,6 +86,9 @@ def type_check_config_vars(tempdir, config_name):
         sys.exit(1)
 
 
+import subprocess
+import sys
+
 def type_check_config_args(config_file):
     try:
         subprocess.check_call(["mypy", config_file])
