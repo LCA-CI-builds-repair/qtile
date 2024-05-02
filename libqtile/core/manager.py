@@ -286,8 +286,6 @@ class Qtile(CommandObject):
         except Exception as error:
             logger.exception("Configuration error:")
             send_notification("Configuration error", str(error))
-            return
-
         self._state = QtileState(self, restart=False)
         self._finalize_configurables()
         hook.clear()
