@@ -223,20 +223,19 @@ class Bar(Gap, configurable.Configurable, CommandObject):
         self.margin: list[int]
         if isinstance(self.margin, int):  # type: ignore [unreachable]
             self.margin = [self.margin] * 4  # type: ignore [unreachable]
+self.border_width: list[int] = []
+if isinstance(self.border_width, int):  # type: ignore [unreachable]
+    self.border_width = [self.border_width] * 4  # type: ignore [unreachable]
 
-        self.border_width: list[int]
-        if isinstance(self.border_width, int):  # type: ignore [unreachable]
-            self.border_width = [self.border_width] * 4  # type: ignore [unreachable]
+self.border_color: ColorsType = None
 
-        self.border_color: ColorsType
-
-        # Check if colours are valid but don't convert to rgba here
-        if is_valid_colors(self.border_color):
-            if not isinstance(self.border_color, list):
-                self.border_color = [self.border_color] * 4
-        else:
-            logger.warning("Invalid border_color specified. Borders will not be displayed.")
-            self.border_width = [0, 0, 0, 0]
+# Check if colours are valid but don't convert to rgba here
+if is_valid_colors(self.border_color):
+    if not isinstance(self.border_color, list):
+        self.border_color = [self.border_color] * 4
+else:
+    logger.warning("Invalid border_color specified. Borders will not be displayed.")
+    self.border_width = [0, 0, 0, 0]
 
     def _configure(self, qtile: Qtile, screen: Screen, reconfigure: bool = False) -> None:
         """

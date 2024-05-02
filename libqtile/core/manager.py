@@ -242,17 +242,15 @@ class Qtile(CommandObject):
     def restart(self) -> None:
         """Restart Qtile.
 
-        Can also be triggered by sending Qtile a SIGUSR2 signal.
-        """
-        if not self.core.supports_restarting:
-            raise CommandError(f"Backend does not support restarting: {self.core.name}")
-        try:
-            self.config.load()
-        except Exception as error:
-            logger.exception("Preventing restart because of a configuration error:")
-            send_notification("Configuration error", str(error.__context__))
-            return
-
+Can also be triggered by sending Qtile a SIGUSR2 signal.
+if not self.core.supports_restarting:
+    raise CommandError(f"Backend does not support restarting: {self.core.name}")
+try:
+    self.config.load()
+except Exception as error:
+    logger.exception("Preventing restart because of a configuration error:")
+    send_notification("Configuration error", str(error.__context__))
+    return
         hook.fire("restart")
         lifecycle.behavior = lifecycle.behavior.RESTART
         state_file = os.path.join(tempfile.gettempdir(), "qtile-state")
@@ -281,13 +279,13 @@ class Qtile(CommandObject):
         """
         logger.debug("Reloading the configuration file")
 
-        try:
-            self.config.load()
-        except Exception as error:
-            logger.exception("Configuration error:")
-            send_notification("Configuration error", str(error))
-            return
+logger.debug("Reloading the configuration file")
 
+try:
+    self.config.load()
+except Exception as error:
+    logger.exception("Configuration error:")
+    send_notification("Configuration error", str(error))
         self._state = QtileState(self, restart=False)
         self._finalize_configurables()
         hook.clear()
@@ -1210,6 +1208,8 @@ class Qtile(CommandObject):
         except utils.QtileError as e:
             raise CommandError(str(e))
 
+        raise CommandError(str(e))
+
     @expose_command()
     def validate_config(self) -> None:
         try:
@@ -1222,8 +1222,6 @@ class Qtile(CommandObject):
     @expose_command()
     def spawn(self, cmd: str | list[str], shell: bool = False) -> int:
         """
-        Spawn a new process.
-
         Parameters
         ==========
         cmd:
