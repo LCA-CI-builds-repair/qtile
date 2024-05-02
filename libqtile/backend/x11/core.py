@@ -514,8 +514,7 @@ class Core(base.Core):
                     modmask | amask,
                     code,
                     xcffib.xproto.GrabMode.Async,
-                    xcffib.xproto.GrabMode.Async,
-                )
+                    xcffib.xproto.GrabMode.Async)
         return keysym, modmask & self._valid_mask
 
     def ungrab_key(self, key: config.Key | config.KeyChord) -> tuple[int, int]:
