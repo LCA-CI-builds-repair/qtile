@@ -880,13 +880,14 @@ class Match:
         wid: int | None = None,
     ) -> None:
         self._rules: dict[str, Any] = {}
-
         if title is not None:
             if isinstance(title, list):  # type: ignore
                 title = convert_deprecated_list(title, "title")
             self._rules["title"] = title
+
         if wm_class is not None:
             if isinstance(wm_class, list):  # type: ignore
+                # Add the necessary code here
                 wm_class = convert_deprecated_list(wm_class, "wm_class")
             self._rules["wm_class"] = wm_class
         if wm_instance_class is not None:
