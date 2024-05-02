@@ -1490,8 +1490,7 @@ class Core(base.Core, wlrq.HasListeners):
         for win in self.qtile.windows_map.copy().values():
             win.kill()
 
-        # give everyone a little time to exit and write their state. but don't
-        # sleep forever (1s).
+        # Wait for a maximum of 1 second for windows to exit and write their state
         end = time.time() + 1
         while time.time() < end:
             self._poll()

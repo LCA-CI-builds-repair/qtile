@@ -470,11 +470,11 @@ def main(args=None):
         level=logging.INFO,
     )
 
-    # get selection of specs, exit if they don't exist
+    # Attempt to get the selection of specs, log exception if they don't exist
     try:
         selection = get_selection(args)
-    except LookupError:
-        logging.exception("Wrong selection:")
+    except LookupError as e:
+        logging.error("Error getting selection: %s", str(e))
         return 1
 
     # switch to group
