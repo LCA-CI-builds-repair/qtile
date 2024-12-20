@@ -883,15 +883,15 @@ class Match:
 
         if title is not None:
             if isinstance(title, list):  # type: ignore
-                title = convert_deprecated_list(title, "title")
+                title = convert_deprecated_list(title, "title")  # type: ignore
             self._rules["title"] = title
         if wm_class is not None:
             if isinstance(wm_class, list):  # type: ignore
-                wm_class = convert_deprecated_list(wm_class, "wm_class")
+                wm_class = convert_deprecated_list(wm_class, "wm_class")  # type: ignore
             self._rules["wm_class"] = wm_class
         if wm_instance_class is not None:
             if isinstance(wm_instance_class, list):  # type: ignore
-                wm_instance_class = convert_deprecated_list(
+                wm_instance_class = convert_deprecated_list(  # type: ignore
                     wm_instance_class, "wm_instance_class"
                 )
             self._rules["wm_instance_class"] = wm_instance_class
@@ -908,11 +908,11 @@ class Match:
 
         if role is not None:
             if isinstance(role, list):  # type: ignore
-                role = convert_deprecated_list(role, "role")
+                role = convert_deprecated_list(role, "role")  # type: ignore
             self._rules["role"] = role
         if wm_type is not None:
             if isinstance(wm_type, list):  # type: ignore
-                wm_type = convert_deprecated_list(wm_type, "wm_type")
+                wm_type = convert_deprecated_list(wm_type, "wm_type")  # type: ignore
             self._rules["wm_type"] = wm_type
 
     @staticmethod
