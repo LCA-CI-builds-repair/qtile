@@ -105,6 +105,10 @@ class Hook:
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
         self.hooks = set([])
+        if TYPE_CHECKING:
+            # Dynamically attached attributes like setgroup are pre-declared as stubs for type checking.
+            self.setgroup: Callable[..., Any]
+            self.startup_complete: Callable[..., Any]
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
@@ -177,7 +181,7 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: set[str] = set()
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
