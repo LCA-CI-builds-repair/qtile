@@ -150,7 +150,7 @@ class KeyChord:
         self.swallow = swallow
 
     def __repr__(self) -> str:
-        return "<KeyChord (%s, %s)>" % (self.modifiers, self.key)
+        return f"<KeyChord ({self.modifiers}, {self.key})>"
 
 
 class Mouse:
