@@ -42,7 +42,7 @@ from libqtile.resources.sleep import inhibitor
 if TYPE_CHECKING:
     from typing import Callable
 
-subscriptions = {}  # type: dict
+subscriptions: dict[str, dict[str, list[Callable]]] = {}
 
 
 def clear():
@@ -112,11 +112,26 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
+        """
+        Adds the given function to the event's list of subscribers
+        and returns the same function for chaining.
+        """
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
         return func
+
+    def __getattr__(self, attr: str) -> Callable:
+        """
+        Dynamically resolve subscription attributes like 'setgroup', 'startup_complete', etc.
+        Ensures compatibility with attributes used in other files (e.g., libqtile/bar.py).
+        """
+        if attr in self.hooks:
+            def func_wrapper(func: Callable) -> Callable:
+                return self._subscribe(attr, func)
+            return func_wrapper
+        raise AttributeError(f"{attr} is not a valid hook.")
 
     def _register(self, hook: Hook) -> None:
         def _hook_func(func):
@@ -149,7 +164,7 @@ class Registry:
         self.name = name
         self.subscribe = Subscribe(name)
         self.unsubscribe = Unsubscribe(name, check_name=False)
-        for hook in hooks:
+        for hook in hooks:  # Original list of hooks
             self.register_hook(hook)
 
     def register_hook(self, hook: Hook) -> None:
@@ -177,7 +192,7 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: set[str] = set()
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
