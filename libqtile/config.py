@@ -404,7 +404,7 @@ class ScreenRect:
 
 
 class Screen(CommandObject):
-    """
+    r"""
     A physical screen, and its associated paraphernalia.
 
     Define a screen with a given set of :class:`Bar`\s of a specific geometry. Also,
