@@ -156,7 +156,7 @@ class KeyChord:
 class Mouse:
     def __init__(self, modifiers: list[str], button: str, *commands: LazyCall) -> None:
         self.modifiers = modifiers
-        self.button = button
+        self.button = button.replace('\\', '\\\\')
         self.commands = commands
         self.button_code = int(self.button.replace("Button", ""))
         self.modmask: int = 0
