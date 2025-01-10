@@ -67,7 +67,7 @@ def _fire_async_event(co):
 
 
 def _resume_func(self):
-    def f(func):
+    def f(func: Callable[[], None]):
         inhibitor.want_resume()
         return self._subscribe("resume", func)
 
@@ -75,7 +75,7 @@ def _resume_func(self):
 
 
 def _suspend_func(self):
-    def f(func):
+    def f(func: Callable[[], None]):
         inhibitor.want_sleep()
         return self._subscribe("suspend", func)
 
@@ -83,7 +83,7 @@ def _suspend_func(self):
 
 
 def _user_hook_func(self):
-    def wrapper(hook_name):
+    def wrapper(hook_name: str):
         def f(func):
             name = f"user_{hook_name}"
             if name not in self.hooks:
@@ -121,7 +121,7 @@ class Subscribe:
     def _register(self, hook: Hook) -> None:
         def _hook_func(func):
             return self._subscribe(hook.name, func)
-
+        
         self.hooks.add(hook.name)
         setattr(self, hook.name, _hook_func if hook.func is None else hook.func(self))
         setattr(getattr(self, hook.name), "__doc__", hook.doc)
@@ -133,7 +133,7 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
-    def _subscribe(self, event: str, func: Callable) -> None:
+    def _subscribe(self, event: str, func: Callable[..., None]) -> None:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         try:
@@ -144,11 +144,12 @@ class Unsubscribe(Subscribe):
             )
 
 
+
 class Registry:
-    def __init__(self, name: str, hooks: list[Hook] = list()) -> None:
+    def __init__(self, name: str, hooks: Sequence[Hook] = []) -> None:
         self.name = name
         self.subscribe = Subscribe(name)
-        self.unsubscribe = Unsubscribe(name, check_name=False)
+        self.unsubscribe = Unsubscribe(name, check_name=True)
         for hook in hooks:
             self.register_hook(hook)
 
@@ -161,13 +162,13 @@ class Registry:
         logger.debug("Registered new hook: '%s'.", hook.name)
         self.subscribe._register(hook)
         self.unsubscribe._register(hook)
-
-    def fire(self, event, *args, **kwargs):
+    
+    def fire(self, event: str, *args: Any, **kwargs: Any):
         if event not in self.subscribe.hooks:
             raise utils.QtileError("Unknown event: %s" % event)
         for i in subscriptions[self.name].get(event, []):
             try:
-                if asyncio.iscoroutinefunction(i):
+                if asyncio.iscoroutinefunction(i): 
                     _fire_async_event(i(*args, **kwargs))
                 elif asyncio.iscoroutine(i):
                     _fire_async_event(i)
