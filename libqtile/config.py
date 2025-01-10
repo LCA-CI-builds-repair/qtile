@@ -233,7 +233,7 @@ class EzConfig:
     Splits an emacs keydef into modifiers and keys. For example:
 
           "m-s-a"     -> ['mod4', 'shift'], 'a'
-          "a-<minus>" -> ['mod1'], 'minus'
+          "a-<minus>" -> ['mod1'], "-"
           "C-<Tab>"   -> ['control'], 'Tab'
 
     """
