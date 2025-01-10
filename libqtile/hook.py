@@ -135,6 +135,8 @@ class Unsubscribe(Subscribe):
 
     def _subscribe(self, event: str, func: Callable) -> None:
         registry = subscriptions.setdefault(self.registry_name, dict())
+        if event not in self.hooks:
+            raise utils.QtileError(f"Tried to unsubscribe from unknown hook: {event}")
         lst = registry.setdefault(event, [])
         try:
             lst.remove(func)
