@@ -104,7 +104,7 @@ class Hook:
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+        self.hooks: set[str] = set()
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
@@ -117,7 +117,7 @@ class Subscribe:
         if func not in lst:
             lst.append(func)
         return func
-
+    subscribe = _subscribe
     def _register(self, hook: Hook) -> None:
         def _hook_func(func):
             return self._subscribe(hook.name, func)
@@ -133,6 +133,7 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
+    unsubscribe = Subscribe._subscribe
     def _subscribe(self, event: str, func: Callable) -> None:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
@@ -147,7 +148,7 @@ class Unsubscribe(Subscribe):
 class Registry:
     def __init__(self, name: str, hooks: list[Hook] = list()) -> None:
         self.name = name
-        self.subscribe = Subscribe(name)
+        self.subscribe = Subscribe(name).subscribe
         self.unsubscribe = Unsubscribe(name, check_name=False)
         for hook in hooks:
             self.register_hook(hook)
@@ -161,10 +162,10 @@ class Registry:
         logger.debug("Registered new hook: '%s'.", hook.name)
         self.subscribe._register(hook)
         self.unsubscribe._register(hook)
-
+        
     def fire(self, event, *args, **kwargs):
-        if event not in self.subscribe.hooks:
-            raise utils.QtileError("Unknown event: %s" % event)
+        if event not in subscriptions[self.name]:
+            raise utils.QtileError(f"Unknown event: {event}")
         for i in subscriptions[self.name].get(event, []):
             try:
                 if asyncio.iscoroutinefunction(i):
