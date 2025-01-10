@@ -552,32 +552,31 @@ class Screen(CommandObject):
             g2.set_screen(s1, warp)
         else:
             assert self.qtile is not None
-            old_group = self.group
             self.group = new_group
-            with self.qtile.core.masked():
-                # display clients of the new group and then hide from old group
-                # to remove the screen flickering
-                new_group.set_screen(self, warp)
-
-                # Can be the same group only if the screen just got configured for the
-                # first time - see `Qtile._process_screens`.
-                if old_group is not new_group:
-                    old_group.set_screen(None, warp)
+            new_group.set_screen(self, warp)
+            if self.previous_group is not None and self.previous_group is not self.group:
+                self.previous_group.set_screen(None, warp)
 
         hook.fire("setgroup")
         hook.fire("focus_change")
         hook.fire("layout_change", self.group.layouts[self.group.current_layout], self.group)
 
     def _toggle_group(self, group: _Group | None = None, warp: bool = True) -> None:
-        """Switch to the selected group or to the previously active one"""
+        """
+        Switch to the selected group or to the previously active one
+        """
         if group in (self.group, None) and self.previous_group:
             group = self.previous_group
         self.set_group(group, warp=warp)
 
     def _items(self, name: str) -> ItemT:
-        if name == "layout" and self.group is not None:
+        if name == "layout":
+            if self.group is None:
+                return True, []
             return True, list(range(len(self.group.layouts)))
-        elif name == "window" and self.group is not None:
+        elif name == "window":
+            if self.group is None:
+                return True, []
             return True, [i.wid for i in self.group.windows]
         elif name == "bar":
             return False, [x.position for x in self.gaps if isinstance(x, Bar)]
@@ -590,15 +589,12 @@ class Screen(CommandObject):
 
     def _select(self, name: str, sel: str | int | None) -> CommandObject | None:
         if name == "layout":
-            if sel is None:
+            if self.group is None or sel is None:
                 return self.group.layout
-            else:
-                assert isinstance(sel, int)
-                return utils.lget(self.group.layouts, sel)
+            assert isinstance(sel, int)
+            return utils.lget(self.group.layouts, sel)
         elif name == "window":
-            if sel is None:
-                return self.group.current_window
-            else:
+            if self.group is not None and sel is not None:
                 for i in self.group.windows:
                     if i.wid == sel:
                         return i
