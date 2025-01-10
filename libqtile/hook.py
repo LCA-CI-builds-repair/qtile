@@ -40,6 +40,7 @@ from libqtile.log_utils import logger
 from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
+    from typing import Any
     from typing import Callable
 
 subscriptions = {}  # type: dict
@@ -104,11 +105,11 @@ class Hook:
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+        self.hooks: set[str] = set()
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
-            subscriptions[registry_name] = {}
+            subscriptions[registry_name] = dict()
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
@@ -133,7 +134,7 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
-    def _subscribe(self, event: str, func: Callable) -> None:
+    def _subscribe(self, event: str, func: Callable) -> Callable:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         try:
@@ -142,6 +143,7 @@ class Unsubscribe(Subscribe):
             raise utils.QtileError(
                 "Tried to unsubscribe a hook that was not currently subscribed"
             )
+        return func
 
 
 class Registry:
@@ -162,7 +164,7 @@ class Registry:
         self.subscribe._register(hook)
         self.unsubscribe._register(hook)
 
-    def fire(self, event, *args, **kwargs):
+    def fire(self, event: str, *args: Any, **kwargs: Any) -> None:
         if event not in self.subscribe.hooks:
             raise utils.QtileError("Unknown event: %s" % event)
         for i in subscriptions[self.name].get(event, []):
