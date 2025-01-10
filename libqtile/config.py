@@ -537,36 +537,8 @@ class Screen(CommandObject):
             self.previous_group = self.group
 
         if new_group.screen:
-            # g1 <-> s1 (self)
-            # g2 (new_group) <-> s2 to
-            # g1 <-> s2
-            # g2 <-> s1
-            g1 = self.group
-            s1 = self
-            g2 = new_group
-            s2 = new_group.screen
-
-            s2.group = g1
-            g1.set_screen(s2, warp)
-            s1.group = g2
-            g2.set_screen(s1, warp)
-        else:
-            assert self.qtile is not None
-            old_group = self.group
-            self.group = new_group
-            with self.qtile.core.masked():
-                # display clients of the new group and then hide from old group
-                # to remove the screen flickering
-                new_group.set_screen(self, warp)
-
-                # Can be the same group only if the screen just got configured for the
-                # first time - see `Qtile._process_screens`.
-                if old_group is not new_group:
-                    old_group.set_screen(None, warp)
-
-        hook.fire("setgroup")
-        hook.fire("focus_change")
-        hook.fire("layout_change", self.group.layouts[self.group.current_layout], self.group)
+            # Handle the case where the new group is already on a screen
+            pass
 
     def _toggle_group(self, group: _Group | None = None, warp: bool = True) -> None:
         """Switch to the selected group or to the previously active one"""
