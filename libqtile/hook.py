@@ -103,7 +103,7 @@ class Hook:
 
 
 class Subscribe:
-    def __init__(self, registry_name: str, check_name=True):
+    def __init__(self, registry_name: str, check_name: bool = True) -> None:
         self.hooks = set([])
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
@@ -111,7 +111,7 @@ class Subscribe:
             subscriptions[registry_name] = {}
         self.registry_name = registry_name
 
-    def _subscribe(self, event: str, func: Callable) -> Callable:
+    def _subscribe(self, event: str, func: Callable[..., Any]) -> Callable[..., Any]:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         if func not in lst:
@@ -1011,7 +1011,8 @@ hooks: list[Hook] = [
 ]
 
 
-qtile_hooks = Registry("qtile", hooks)
+HookRegistry: TypeAlias = Registry
+qtile_hooks: HookRegistry = Registry("qtile", hooks)
 
 subscribe = qtile_hooks.subscribe
 unsubscribe = qtile_hooks.unsubscribe
