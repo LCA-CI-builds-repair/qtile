@@ -678,6 +678,16 @@ class Screen(CommandObject):
         """Set the wallpaper to the given file."""
         self.paint(path, mode)
 
+class Match:
+    """Match objects for dynamic groups"""
+
+    def __init__(self, wm_class=None, wm_instance=None, wm_type=None, title=None, role=None):
+        self.wm_class = wm_class
+        self.wm_instance = wm_instance
+        self.title = title
+        self.wm_type = wm_type
+        self.role = role
+
 
 class Group:
     """
