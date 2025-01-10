@@ -42,7 +42,7 @@ from libqtile.resources.sleep import inhibitor
 if TYPE_CHECKING:
     from typing import Callable
 
-subscriptions = {}  # type: dict
+subscriptions: dict[str, dict[str, list[Callable]]] = {}
 
 
 def clear():
@@ -104,7 +104,7 @@ class Hook:
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+        self.hooks: set[str] = set()
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
@@ -134,7 +134,7 @@ class Unsubscribe(Subscribe):
     """
 
     def _subscribe(self, event: str, func: Callable) -> None:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         try:
             lst.remove(func)
