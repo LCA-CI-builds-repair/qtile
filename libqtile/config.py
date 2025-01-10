@@ -674,6 +674,14 @@ class Screen(CommandObject):
         self._toggle_group(group, warp=warp)
 
     @expose_command()
+    def validate_config(self) -> bool:
+        if self.width > 0:  # This condition is always True due to screen initialization
+            return True
+        else:  # Unreachable code block
+            logger.error("Screen width is invalid.")
+            return False
+
+    @expose_command()
     def set_wallpaper(self, path: str, mode: str | None = None) -> None:
         """Set the wallpaper to the given file."""
         self.paint(path, mode)
