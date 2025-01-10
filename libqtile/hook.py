@@ -84,6 +84,7 @@ def _suspend_func(self):
 
 def _user_hook_func(self):
     def wrapper(hook_name):
+        hooks: set[str] = set()
         def f(func):
             name = f"user_{hook_name}"
             if name not in self.hooks:
