@@ -61,10 +61,10 @@ class Key:
         ``"mod4"``, ``"mod5"``.
     key:
         A key specification, e.g. ``"a"``, ``"Tab"``, ``"Return"``, ``"space"``.
-    commands:
+    commands: 
         One or more :class:`LazyCall` objects to evaluate in sequence upon keypress. Multiple
         commands should be separated by commas.
-    desc:
+    desc: 
         Description to be added to the key binding. (Optional)
     swallow:
         Configures when we swallow the key binding. (Optional)
