@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
@@ -134,7 +134,7 @@ class Unsubscribe(Subscribe):
     """
 
     def _subscribe(self, event: str, func: Callable) -> None:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         try:
             lst.remove(func)
