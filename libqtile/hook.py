@@ -177,7 +177,8 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: set[str] = set()
+hook_list: list[Hook] = [
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
