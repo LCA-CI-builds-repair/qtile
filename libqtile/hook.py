@@ -40,7 +40,7 @@ from libqtile.log_utils import logger
 from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
-    from typing import Callable
+    from typing import Callable, Set, Any
 
 subscriptions = {}  # type: dict
 
@@ -177,7 +177,8 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: Set[str] = set()
+hook_list: list[Hook] = [
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
