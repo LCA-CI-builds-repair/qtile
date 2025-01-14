@@ -103,6 +103,8 @@ class Hook:
 
 
 class Subscribe:
+    setgroup: Callable[..., Callable]
+    startup_complete: Callable[..., Callable]
     def __init__(self, registry_name: str, check_name=True):
         self.hooks = set([])
         if check_name and registry_name in subscriptions:
@@ -112,6 +114,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
+    def _subscribe(self, event: str, func: Callable) -> Callable[..., Any]:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         if func not in lst:
@@ -133,7 +136,7 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
-    def _subscribe(self, event: str, func: Callable) -> None:
+    def _subscribe(self, event: str, func: Callable) -> Callable[..., Any]:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         try:
@@ -178,6 +181,7 @@ class Registry:
 
 
 hooks: list[Hook] = [
+hooks: set[Hook] = set([
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
