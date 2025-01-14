@@ -616,34 +616,8 @@ class Screen(CommandObject):
                     if widget.name == sel:
                         return widget
         elif name == "group":
-            if sel is None:
-                return self.group
-            else:
-                return self.group if sel == self.group.name else None
-        return None
-
-    @expose_command
-    def resize(
-        self,
-        x: int | None = None,
-        y: int | None = None,
-        w: int | None = None,
-        h: int | None = None,
-    ) -> None:
-        assert self.qtile is not None
-        if x is None:
-            x = self.x
-        if y is None:
-            y = self.y
-        if w is None:
-            w = self.width
-        if h is None:
-            h = self.height
-        self._configure(self.qtile, self.index, x, y, w, h, self.group)
-        for bar in [self.top, self.bottom, self.left, self.right]:
-            if bar:
-                bar.draw()
-        self.group.layout_all()
+            return self.group
+        raise ValueError(f"Invalid name: {name}")
 
     @expose_command()
     def info(self) -> dict[str, int]:
