@@ -103,8 +103,8 @@ class Hook:
 
 
 class Subscribe:
-    def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+    def __init__(self, registry_name: str, check_name: bool = True) -> None:
+        self.hooks: set[str] = set()
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
@@ -133,8 +133,8 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
-    def _subscribe(self, event: str, func: Callable) -> None:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+    def _subscribe(self, event: str, func: Callable) -> Callable:
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         try:
             lst.remove(func)
