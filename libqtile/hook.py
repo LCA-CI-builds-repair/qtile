@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Set, Callable, Any
 
 from libqtile import utils
 from libqtile.log_utils import logger
@@ -177,7 +177,7 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: Set[Hook] = {
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
