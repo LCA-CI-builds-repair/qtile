@@ -737,6 +737,40 @@ class Group:
         label: str | None = None,
     ) -> None:
         self.name = name
+        self.exclusive = exclusive
+        self.spawn = spawn
+        self.layout = layout
+        self.layouts = layouts or []
+        self.persist = persist
+        self.init = init
+        self.matches = matches or []
+        self.layout_opts = layout_opts or {}
+        self.screen_affinity = screen_affinity
+        self.position = position
+        self.label = label if label is not None else name
+        self.windows = []
+        self.qtile = None
+        self.screen = None
+        self.current_layout = 0
+
+    def __repr__(self) -> str:
+        return "<Group %r>" % self.name
+
+    def _configure(self, layouts: list[Layout], qtile: Qtile) -> None:
+        self.qtile = qtile
+        if not self.layouts:
+            self.layouts = [i.clone(self) for i in layouts]
+        for i in self.layouts:
+            i.group = self
+            if self.layout_opts:
+                i.configure(**self.layout_opts)
+
+        if self.layout:
+            for layout in self.layouts:
+                if layout.name == self.layout:
+                    self.current_layout = self.layouts.index(layout)
+    ) -> None:
+        self.name = name
         self.label = label
         self.exclusive = exclusive
         self.spawn = spawn
