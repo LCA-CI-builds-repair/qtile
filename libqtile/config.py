@@ -1,11 +1,72 @@
-# Copyright (c) 2012-2015 Tycho Andersen
-# Copyright (c) 2013 xarvh
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013-2014 roger
-# Copyright (c) 2013 Tao Sauvage
-# Copyright (c) 2014 ramnes
-# Copyright (c) 2014 Sean Vig
-# Copyright (c) 2014 Adi Sieker
+
+from collections import defaultdict
+
+class Match:
+    def __init__(self, title, class_, regex=False):
+        self.title = title
+        self.class_ = class_
+        self.regex = regex
+
+    def __repr__(self):
+        return "<Match %s [%s]>" % (self.title, self.class_)
+
+class Group:
+    def __init__(
+        self,
+        name,
+        matches=None,
+        exclusive=False,
+        spawn=None,
+        layout=None,
+        layouts=None,
+        persist=True,
+        init=True,
+        layout_opts=None,
+        screen_affinity=None,
+        position=None,
+        label=None,
+    ):
+        self.name = name
+        self.matches = matches if matches else []
+        self.exclusive = exclusive
+        self.spawn = spawn
+        self.layout = layout
+        self.layouts = layouts if layouts else []
+        self.persist = persist
+        self.init = init
+        self.layout_opts = layout_opts
+        self.screen_affinity = screen_affinity
+        self.position = position
+        self.label = label
+
+    def __repr__(self):
+        return "<Group %s>" % self.name
+
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def add_match(self, match):
+        if isinstance(match, Match):
+            self.matches.append(match)
+        else:
+            raise TypeError("Only Match instances can be added to a group")
+
+    def remove_match(self, match):
+        if isinstance(match, Match):
+            self.matches.remove(match)
+        else:
+            raise TypeError("Only Match instances can be removed from a group")
+
+    def get_next_group(self, skip_empty, skip_managed):
+        # implementation omitted for brevity
+        pass
+
+    def get_previous_group(self, skip_empty, skip_managed):
+        # implementation omitted for brevity
+        pass
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
