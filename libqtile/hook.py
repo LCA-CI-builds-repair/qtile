@@ -107,7 +107,7 @@ class Subscribe:
         self.hooks = set([])
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
-        elif registry_name not in subscriptions:
+        elif registry_name not in subscriptions or registry_name not in subscriptions.values():
             subscriptions[registry_name] = {}
         self.registry_name = registry_name
 
