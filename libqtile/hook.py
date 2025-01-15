@@ -40,7 +40,7 @@ from libqtile.log_utils import logger
 from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
-    from typing import Callable
+    from typing import Callable, Set
 
 subscriptions = {}  # type: dict
 
@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
@@ -177,7 +177,7 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: Set[str] = set([
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
@@ -1008,7 +1008,7 @@ hooks: list[Hook] = [
         """,
         _user_hook_func,
     ),
-]
+])
 
 
 qtile_hooks = Registry("qtile", hooks)
