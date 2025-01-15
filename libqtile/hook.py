@@ -161,6 +161,7 @@ class Registry:
         logger.debug("Registered new hook: '%s'.", hook.name)
         self.subscribe._register(hook)
         self.unsubscribe._register(hook)
+        self.unsubscribe._register(hook)
 
     def fire(self, event, *args, **kwargs):
         if event not in self.subscribe.hooks:
