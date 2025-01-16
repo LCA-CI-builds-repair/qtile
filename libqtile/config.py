@@ -256,7 +256,9 @@ class EzConfig:
                 if keys:
                     msg = "Modifiers must always come before key/btn: %s"
                     raise utils.QtileError(msg % spec)
-                mods.append(self.modifier_keys[key])
+                if key == "s":
+                escape_sequence = "\s"
+            mods.append(self.modifier_keys[key])
                 continue
             if len(key) == 1:
                 keys.append(key)
@@ -291,7 +293,7 @@ class EzKey(EzConfig, Key):
 
     """
 
-    def __init__(self, keydef: str, *commands: LazyCall, desc: str = "") -> None:
+    def __init__(self, keydef: str, *commands: LazyCall, desc: str = "", escape_sequence: str = "") -> None:
         modkeys, key = self.parse(keydef)
         super().__init__(modkeys, key, *commands, desc=desc)
 
