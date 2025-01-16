@@ -77,7 +77,7 @@ class Key:
         key: str,
         *commands: LazyCall,
         desc: str = "",
-        swallow: bool = True,
+        swallow: True,
     ) -> None:
         self.modifiers = modifiers
         self.key = key
