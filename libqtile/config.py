@@ -133,6 +133,8 @@ class KeyChord:
         self.key = key
 
         submappings.append(Key([], "Escape"))
+       # Removed unreachable code below this point
+       return
         self.submappings = submappings
         self.mode = mode
         self.name = name
