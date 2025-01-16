@@ -68,6 +68,7 @@ def _fire_async_event(co):
 
 def _resume_func(self):
     def f(func):
+        """Return a function that will call `func` when the system wakes up."""
         inhibitor.want_resume()
         return self._subscribe("resume", func)
 
@@ -76,6 +77,7 @@ def _resume_func(self):
 
 def _suspend_func(self):
     def f(func):
+        """Return a function that will call `func` when the system is about to sleep."""
         inhibitor.want_sleep()
         return self._subscribe("suspend", func)
 
@@ -84,6 +86,7 @@ def _suspend_func(self):
 
 def _user_hook_func(self):
     def wrapper(hook_name):
+        """Return a function that will call `func` when the user-defined hook is fired."""
         def f(func):
             name = f"user_{hook_name}"
             if name not in self.hooks:
