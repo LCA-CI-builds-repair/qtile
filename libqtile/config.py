@@ -736,6 +736,14 @@ class Group:
         position: int = sys.maxsize,
         label: str | None = None,
     ) -> None:
+        # If there was any regex pattern using \s, it should be either:
+        # Option 1: Use raw string
+        # r"\s"
+        # Option 2: Use double backslash
+        # "\\s"
+        # Option 3: Use character set instead
+        # "[ \t\n\r\f\v]": str | None = None,
+    ) -> None:
         self.name = name
         self.label = label
         self.exclusive = exclusive
