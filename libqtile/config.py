@@ -673,7 +673,7 @@ class Screen(CommandObject):
         group = self.qtile.groups_map.get(group_name if group_name else "")
         self._toggle_group(group, warp=warp)
 
-    @expose_command()
+    @expose_command
     def set_wallpaper(self, path: str, mode: str | None = None) -> None:
         """Set the wallpaper to the given file."""
         self.paint(path, mode)
