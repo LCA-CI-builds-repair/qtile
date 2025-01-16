@@ -137,7 +137,7 @@ class Unsubscribe(Subscribe):
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         try:
-            lst.remove(func)
+            lst.remove(func)  # Keep this line
         except ValueError:
             raise utils.QtileError(
                 "Tried to unsubscribe a hook that was not currently subscribed"
