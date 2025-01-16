@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry: dict[str, list[Callable]] = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
