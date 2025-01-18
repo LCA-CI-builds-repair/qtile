@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Set
 
 from libqtile import utils
 from libqtile.log_utils import logger
@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, {})
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
@@ -133,7 +133,7 @@ class Unsubscribe(Subscribe):
     overridden to remove calls from hooks.
     """
 
-    def _subscribe(self, event: str, func: Callable) -> None:
+    def _subscribe(self, event: str, func: Callable) -> Callable:
         registry = subscriptions.setdefault(self.registry_name, dict())
         lst = registry.setdefault(event, [])
         try:
@@ -142,6 +142,7 @@ class Unsubscribe(Subscribe):
             raise utils.QtileError(
                 "Tried to unsubscribe a hook that was not currently subscribed"
             )
+        return func
 
 
 class Registry:
@@ -177,7 +178,7 @@ class Registry:
                 logger.exception("Error in hook %s", event)
 
 
-hooks: list[Hook] = [
+hooks: Set[Hook] = {
     Hook(
         "startup_once",
         """Called when Qtile has started on first start
@@ -1006,9 +1007,9 @@ hooks: list[Hook] = [
           However, the same socket will need to be passed wherever you run ``qtile cmd-obj`` or ``qtile shell``.
 
         """,
-        _user_hook_func,
+        _user_hook_func
     ),
-]
+}
 
 
 qtile_hooks = Registry("qtile", hooks)
