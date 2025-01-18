@@ -734,7 +734,7 @@ class Group:
         layout_opts: dict[str, Any] | None = None,
         screen_affinity: int | None = None,
         position: int = sys.maxsize,
-        label: str | None = None,
+        label: str | None = None,: str | None = None,
     ) -> None:
         self.name = name
         self.label = label
