@@ -655,7 +655,7 @@ class Screen(CommandObject):
         """Switch to the next group"""
         n = self.group.get_next_group(skip_empty, skip_managed)
         self.set_group(n)
-        return n.name
+        n.name  # Remove return since method is annotated as returning None
 
     @expose_command()
     def prev_group(
