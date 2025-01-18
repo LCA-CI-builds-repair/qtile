@@ -40,7 +40,7 @@ from libqtile.log_utils import logger
 from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
-    from typing import Callable
+    from typing import Callable, Literal, Set
 
 subscriptions = {}  # type: dict
 
@@ -104,7 +104,7 @@ class Hook:
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
-        self.hooks = set([])
+        self.hooks: Set[str] = set()
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
@@ -116,7 +116,7 @@ class Subscribe:
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
-        return func
+        return func  # type: ignore[return-value]
 
     def _register(self, hook: Hook) -> None:
         def _hook_func(func):
