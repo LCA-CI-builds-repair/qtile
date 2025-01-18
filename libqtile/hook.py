@@ -70,6 +70,11 @@ def _resume_func(self):
     def f(func):
         inhibitor.want_resume()
         return self._subscribe("resume", func)
+    # Add try-except block to handle potential errors
+    try:
+        return f
+    except Exception as e:
+        logger.error(f"Error handling hook: {e}")
 
     return f
 
@@ -78,6 +83,11 @@ def _suspend_func(self):
     def f(func):
         inhibitor.want_sleep()
         return self._subscribe("suspend", func)
+    # Add try-except block to handle potential errors
+    try:
+        return f
+    except Exception as e:
+        logger.error(f"Error handling hook: {e}")
 
     return f
 
