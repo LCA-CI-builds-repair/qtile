@@ -41,6 +41,7 @@ from libqtile.resources.sleep import inhibitor
 
 if TYPE_CHECKING:
     from typing import Callable
+   from typing import Set
 
 subscriptions = {}  # type: dict
 
