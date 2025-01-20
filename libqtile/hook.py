@@ -100,11 +100,13 @@ class Hook:
         self.name = name
         self.doc = doc
         self.func = func
+        self.subscribe: Subscribe | None = None  # Add attribute to fix error
 
 
 class Subscribe:
     def __init__(self, registry_name: str, check_name=True):
         self.hooks = set([])
+        self.hooks: set[str] = set([])  # Add type annotation
         if check_name and registry_name in subscriptions:
             raise NameError("A hook registry already exists with that name: {registry_name}")
         elif registry_name not in subscriptions:
