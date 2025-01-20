@@ -148,6 +148,12 @@ class Registry:
     def __init__(self, name: str, hooks: list[Hook] = list()) -> None:
         self.name = name
         self.subscribe = Subscribe(name)
+        self.subscribe.setgroup(lambda: None)  # Add a default setgroup hook
+        self.subscribe.startup_complete(lambda: None)  # Add a default startup_complete hook
+        self.subscribe.client_new(lambda client: None)  # Add a default client_new hook
+        self.subscribe.client_killed(lambda client: None)  # Add a default client_killed hook
+        self.subscribe.float_change(lambda: None)  # Add a default float_change hook
+        self.subscribe.focus_change(lambda: None)  # Add a default focus_change hook
         self.unsubscribe = Unsubscribe(name, check_name=False)
         for hook in hooks:
             self.register_hook(hook)
