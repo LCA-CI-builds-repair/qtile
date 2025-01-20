@@ -86,7 +86,7 @@ class Key:
         self.swallow = swallow
 
     def __repr__(self) -> str:
-        return "<Key (%s, %s)>" % (self.modifiers, self.key)
+        return r"<Key (%s, %s)>" % (self.modifiers, self.key)
 
 
 class KeyChord:
