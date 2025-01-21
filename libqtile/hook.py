@@ -97,9 +97,9 @@ def _user_hook_func(self):
 
 class Hook:
     def __init__(self, name: str, doc: str = "", func: Callable | None = None) -> None:
-        self.name = name
-        self.doc = doc
-        self.func = func
+        self.name: str = name
+        self.doc: str = doc
+        self.func: Callable | None = func
 
 
 class Subscribe:
@@ -112,7 +112,7 @@ class Subscribe:
         self.registry_name = registry_name
 
     def _subscribe(self, event: str, func: Callable) -> Callable:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, dict())  # type: dict[str, list[Callable]]
         lst = registry.setdefault(event, [])
         if func not in lst:
             lst.append(func)
@@ -134,7 +134,7 @@ class Unsubscribe(Subscribe):
     """
 
     def _subscribe(self, event: str, func: Callable) -> None:
-        registry = subscriptions.setdefault(self.registry_name, dict())
+        registry = subscriptions.setdefault(self.registry_name, dict())  # type: dict[str, list[Callable]]
         lst = registry.setdefault(event, [])
         try:
             lst.remove(func)
