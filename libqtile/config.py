@@ -145,7 +145,8 @@ class KeyChord:
                 "'mode' should be a boolean value to set whether the chord is persistent (True) or not.",
                 mode,
             )
-            self.name = mode
+# after line 410
+            self.name = mode.replace('\s', ' ')
             self.mode = True
         self.swallow = swallow
 
