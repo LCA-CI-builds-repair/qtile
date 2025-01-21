@@ -117,6 +117,38 @@ class Subscribe:
         if func not in lst:
             lst.append(func)
         return func
+    
+    def setgroup(self):
+        # Placeholder method for setgroup attribute
+        pass
+
+    def startup_complete(self):
+        # Placeholder method for startup_complete attribute
+        pass
+
+    def client_new(self):
+        # Placeholder method for client_new attribute
+        pass
+
+    def client_killed(self):
+        # Placeholder method for client_killed attribute
+        pass
+
+    def float_change(self):
+        # Placeholder method for float_change attribute
+        pass
+
+    def focus_change(self):
+        # Placeholder method for focus_change attribute
+        pass
+
+    def screen_change(self):
+        # Placeholder method for screen_change attribute
+        pass
+
+    def client_focus(self):
+        # Placeholder method for client_focus attribute
+        pass
 
     def _register(self, hook: Hook) -> None:
         def _hook_func(func):
